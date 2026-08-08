@@ -12,11 +12,26 @@ const REQUIRED_FIELDS: Array<keyof ContractInput> = [
   'endDate',
 ];
 
+const FIELD_MAX_LENGTHS: Record<keyof ContractInput, number> = {
+  workerName: 200,
+  position: 200,
+  salary: 50,
+  duties: 2000,
+  farmName: 200,
+  farmOwnerName: 200,
+  startDate: 50,
+  endDate: 50,
+};
+
 function isValidBody(body: unknown): body is ContractInput {
   if (!body || typeof body !== 'object') return false;
   return REQUIRED_FIELDS.every((field) => {
     const value = (body as Record<string, unknown>)[field];
-    return typeof value === 'string' && value.trim().length > 0;
+    return (
+      typeof value === 'string' &&
+      value.trim().length > 0 &&
+      value.length <= FIELD_MAX_LENGTHS[field]
+    );
   });
 }
 
@@ -38,7 +53,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return;
   }
 
-  const model = process.env.GEMINI_MODEL || 'gemini-2.5-flash';
+  const model = process.env.GEMINI_MODEL || 'gemini-flash-lite-latest';
   const prompt = buildContractPrompt(req.body);
 
   try {

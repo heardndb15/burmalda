@@ -109,6 +109,7 @@ export interface Contract {
   status: 'active' | 'pending' | 'completed';
   duties: string;
   aiGenerated: boolean;
+  contractText?: string;
   createdAt: string;
 }
 

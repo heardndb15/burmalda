@@ -49,4 +49,4 @@ npm run dev:api
 
 Переменные окружения (см. `.env.example`):
 - `GEMINI_API_KEY` — обязателен.
-- `GEMINI_MODEL` — опционален, по умолчанию `gemini-2.5-flash`.
+- `GEMINI_MODEL` — опционален, по умолчанию `gemini-flash-lite-latest`.

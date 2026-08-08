@@ -35,6 +35,7 @@ export function buildContractPrompt(input: ContractInput): string {
 interface GeminiResponse {
   candidates?: Array<{
     content?: { parts?: Array<{ text?: string }> };
+    finishReason?: string;
   }>;
   promptFeedback?: { blockReason?: string };
 }
@@ -54,7 +55,7 @@ export async function callGemini(prompt: string, apiKey: string, model: string):
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         contents: [{ parts: [{ text: prompt }] }],
-        generationConfig: { temperature: 0.4, maxOutputTokens: 1024 },
+        generationConfig: { temperature: 0.4, maxOutputTokens: 4096 },
       }),
       signal: controller.signal,
     });
@@ -71,6 +72,11 @@ export async function callGemini(prompt: string, apiKey: string, model: string):
 
   if (data.promptFeedback?.blockReason) {
     throw new Error(`Gemini заблокировал запрос: ${data.promptFeedback.blockReason}`);
+  }
+
+  const finishReason = data.candidates?.[0]?.finishReason;
+  if (finishReason && finishReason !== 'STOP') {
+    throw new Error(`Gemini не завершил генерацию корректно (finishReason: ${finishReason})`);
   }
 
   const text = data.candidates?.[0]?.content?.parts?.[0]?.text;

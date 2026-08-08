@@ -46,9 +46,15 @@ export const ContractCreatePage: React.FC = () => {
             endDate: '2026-11-15',
           }),
         });
-        const data = await response.json();
-        if (!response.ok) {
-          throw new Error(data.error || 'Не удалось сформировать договор');
+        const raw = await response.text();
+        let data: { contractText?: string; error?: string };
+        try {
+          data = JSON.parse(raw);
+        } catch {
+          throw new Error('Не удалось сформировать договор, попробуйте ещё раз');
+        }
+        if (!response.ok || !data.contractText) {
+          throw new Error(data.error || 'Не удалось сформировать договор, попробуйте ещё раз');
         }
         setContractText(data.contractText);
         setStep(4);
@@ -64,6 +70,7 @@ export const ContractCreatePage: React.FC = () => {
           status: 'active',
           duties,
           aiGenerated: true,
+          contractText: data.contractText,
         });
         confetti({ particleCount: 100, spread: 70 });
       } catch (err) {
