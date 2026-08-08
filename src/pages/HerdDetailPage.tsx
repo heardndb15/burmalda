@@ -15,7 +15,7 @@ export const HerdDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const { herds } = useApp();
 
-  const herd = herds.find((h) => h.id === id) || herdsData[0];
+  const herd = herds.find((h) => h.id === id) || herdsData.find((h) => h.id === id) || herdsData[0];
   const [isLiveTracking, setIsLiveTracking] = useState(herd.isLiveTracking);
 
   // Live distance to road computed from demo data

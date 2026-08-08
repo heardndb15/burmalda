@@ -4,6 +4,7 @@ import 'leaflet/dist/leaflet.css';
 import { useApp } from '../../context/AppContext';
 import { Layers, Flame, FileText, CheckSquare, History, ShieldAlert, Sparkles } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { dangerZonesData } from '../../data/dangerZones';
 
 type ActiveLayer = 'pastures' | 'land_use' | 'density' | 'infrastructure';
 type HeatmapMode = 'pasture_health' | 'livestock_load' | 'degradation' | 'land_use' | 'water_access' | 'risks';
@@ -56,8 +57,8 @@ export const GovernmentMapPage: React.FC = () => {
 
     L.control.zoom({ position: 'bottomright' }).addTo(map);
 
-    L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-      attribution: 'Esri, DigitalGlobe, USGS, AgroRadar District GIS',
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '© OpenStreetMap contributors',
       maxZoom: 18,
     }).addTo(map);
 
@@ -119,6 +120,18 @@ export const GovernmentMapPage: React.FC = () => {
       );
 
       group.addLayer(polygon);
+    });
+
+    // Danger Zones Layer (roads, railways, erosion risk) — required for district oversight
+    dangerZonesData.forEach((dz) => {
+      const color = dz.severity === 'critical' ? '#EF4444' : dz.severity === 'warning' ? '#F59E0B' : '#3B82F6';
+      const polyline = L.polyline(dz.coordinates, {
+        color,
+        weight: dz.severity === 'critical' ? 5 : 3,
+        dashArray: '8, 8',
+      });
+      polyline.bindTooltip(`<b>${dz.name}</b>`, { permanent: false });
+      group.addLayer(polyline);
     });
 
     // Infrastructure Layer (Roads, Wells, Settlements)

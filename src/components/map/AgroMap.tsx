@@ -40,8 +40,9 @@ export const AgroMap: React.FC<AgroMapProps> = ({
   const leafletInstance = useRef<L.Map | null>(null);
   const layersGroupRef = useRef<L.LayerGroup | null>(null);
 
-  const { notifications, setUserRole, userRole } = useApp();
+  const { addNotification } = useApp();
   const navigate = useNavigate();
+  const alertTierRef = useRef<Record<string, 'warning' | 'emergency' | 'critical' | null>>({});
 
   // Map state controls
   const [mapLayers, setMapLayers] = useState({
@@ -69,7 +70,7 @@ export const AgroMap: React.FC<AgroMapProps> = ({
 
     L.control.zoom({ position: 'bottomright' }).addTo(map);
 
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{y}/{x}.png', {
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '© OpenStreetMap contributors',
       maxZoom: 18,
     }).addTo(map);
@@ -117,6 +118,34 @@ export const AgroMap: React.FC<AgroMapProps> = ({
           } else if (distanceMeters < 1000) {
             status = 'warning';
           }
+
+          // Anti-DTP: push a notification into the shared notification system only
+          // when the herd newly crosses a threshold (avoid re-alerting every tick)
+          const tier: 'warning' | 'emergency' | 'critical' | null =
+            distanceMeters < 300 ? 'critical' : distanceMeters < 500 ? 'emergency' : distanceMeters < 1000 ? 'warning' : null;
+          const prevTier = alertTierRef.current[herd.id] ?? null;
+          if (tier !== prevTier && tier !== null) {
+            const messages: Record<'warning' | 'emergency' | 'critical', { title: string; message: string; type: 'warning' | 'danger' }> = {
+              warning: {
+                title: '⚠️ Приближение к опасной зоне',
+                message: `${herd.name} приближается к опасной зоне (${distanceMeters} м).`,
+                type: 'warning',
+              },
+              emergency: {
+                title: '🚨 Экстренная ситуация',
+                message: `${herd.name} находится в ${distanceMeters} м от дороги.`,
+                type: 'danger',
+              },
+              critical: {
+                title: '🚨 КРИТИЧЕСКАЯ ОПАСНОСТЬ',
+                message: `${herd.name} находится в ${distanceMeters} м от дороги.`,
+                type: 'danger',
+              },
+            };
+            const alert = messages[tier];
+            addNotification({ title: alert.title, message: alert.message, type: alert.type, link: `/herd/${herd.id}` });
+          }
+          alertTierRef.current[herd.id] = tier;
 
           return {
             ...herd,

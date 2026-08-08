@@ -2,10 +2,17 @@ import React, { useState } from 'react';
 import { useApp } from '../context/AppContext';
 import { useNavigate } from 'react-router-dom';
 import { Footprints, Plus, Eye, UserCheck, ShieldAlert, Radio, X } from 'lucide-react';
+import { herdsData } from '../data/herds';
 
 export const HerdPage: React.FC = () => {
-  const { herds, addHerd, setSelectedHerd, t } = useApp();
+  const { herds: contextHerds, addHerd, setSelectedHerd, t } = useApp();
   const navigate = useNavigate();
+
+  // Merge demo herds with context herds (context entries override by id) so herds
+  // only present in the map's demo dataset (e.g. herd-3) still show up here.
+  const demoById = Object.fromEntries(herdsData.map((h) => [h.id, h]));
+  const contextById = Object.fromEntries(contextHerds.map((h) => [h.id, h]));
+  const herds = Object.values({ ...demoById, ...contextById });
 
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [name, setName] = useState('');

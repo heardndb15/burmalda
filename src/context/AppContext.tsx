@@ -57,6 +57,7 @@ interface AppContextType {
   addContract: (contract: Omit<Contract, 'id' | 'createdAt'>) => void;
   notifications: NotificationItem[];
   markNotificationRead: (id: string) => void;
+  addNotification: (notification: Omit<NotificationItem, 'id' | 'timestamp' | 'isRead'>) => void;
   emergencyAlert: EmergencyAlert | null;
   triggerEmergencyAlert: () => void;
   resolveEmergencyAlert: () => void;
@@ -206,6 +207,16 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     );
   };
 
+  const addNotification = (notification: Omit<NotificationItem, 'id' | 'timestamp' | 'isRead'>) => {
+    const created: NotificationItem = {
+      ...notification,
+      id: `notif-${Date.now()}-${Math.round(Math.random() * 1000)}`,
+      timestamp: new Date().toLocaleString('ru-RU'),
+      isRead: false,
+    };
+    setNotifications((prev) => [created, ...prev]);
+  };
+
   const triggerEmergencyAlert = () => {
     setEmergencyAlert(initialEmergencyAlert);
   };
@@ -273,6 +284,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         addContract,
         notifications,
         markNotificationRead,
+        addNotification,
         emergencyAlert,
         triggerEmergencyAlert,
         resolveEmergencyAlert,
