@@ -1,136 +1,148 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 import {
-  CvResume,
-  CVTemplate,
-  CoverLetter,
-  JobApplication,
+  Language,
+  Farm,
+  Pasture,
+  Herd,
+  Tracker,
+  Worker,
+  Contract,
   NotificationItem,
-  InterviewQuestion,
-  CareerGoal,
+  EmergencyAlert,
   UserProfile,
 } from '../types';
 import {
-  initialUser,
-  initialResumes,
-  initialTemplates,
-  initialCoverLetters,
-  initialApplications,
+  initialFarm,
+  initialPastures,
+  initialHerds,
+  initialTrackers,
+  initialWorkers,
+  initialContracts,
   initialNotifications,
-  initialInterviewQuestions,
-  initialCareerGoals,
+  initialEmergencyAlert,
 } from '../services/mockData';
+import { translations } from '../i18n/translations';
 
 interface AppContextType {
+  language: Language;
+  setLanguage: (lang: Language) => void;
+  t: (key: string) => string;
   user: UserProfile;
   setUser: React.Dispatch<React.SetStateAction<UserProfile>>;
-
-  resumes: CvResume[];
-  addResume: (resume: Omit<CvResume, 'id' | 'createdAt' | 'updatedAt' | 'stats'>) => CvResume;
-  updateResume: (id: string, patch: Partial<CvResume>) => void;
-  deleteResume: (id: string) => void;
-  duplicateResume: (id: string) => void;
-  getResume: (id: string) => CvResume | undefined;
-  setActiveResumeId: (id: string) => void;
-  activeResumeId: string | null;
-  activeResume: CvResume | null;
-
-  templates: CVTemplate[];
-  getTemplate: (id: string) => CVTemplate | undefined;
-
-  coverLetters: CoverLetter[];
-  addCoverLetter: (letter: Omit<CoverLetter, 'id' | 'createdAt'>) => void;
-
-  applications: JobApplication[];
-  updateApplicationStatus: (id: string, status: JobApplication['status']) => void;
-
+  farm: Farm;
+  setFarm: React.Dispatch<React.SetStateAction<Farm>>;
+  pastures: Pasture[];
+  addPasture: (pasture: Omit<Pasture, 'id'>) => void;
+  herds: Herd[];
+  addHerd: (herd: Omit<Herd, 'id'>) => void;
+  trackers: Tracker[];
+  addTracker: (code: string, herdId?: string) => void;
+  workers: Worker[];
+  contracts: Contract[];
+  addContract: (contract: Omit<Contract, 'id' | 'createdAt'>) => void;
   notifications: NotificationItem[];
   markNotificationRead: (id: string) => void;
-  markAllNotificationsRead: () => void;
-
-  interviewQuestions: InterviewQuestion[];
-  careerGoals: CareerGoal[];
-
+  emergencyAlert: EmergencyAlert | null;
+  triggerEmergencyAlert: () => void;
+  resolveEmergencyAlert: () => void;
   isAiAssistantOpen: boolean;
   setIsAiAssistantOpen: (open: boolean) => void;
+  isDemoMode: boolean;
+  startDemoMode: () => void;
+  stopDemoMode: () => void;
+  selectedPasture: Pasture | null;
+  setSelectedPasture: (p: Pasture | null) => void;
+  selectedHerd: Herd | null;
+  setSelectedHerd: (h: Herd | null) => void;
+  safetyRadius: number;
+  setSafetyRadius: (r: number) => void;
+  alertChannels: { push: boolean; sms: boolean; whatsapp: boolean };
+  setAlertChannels: React.Dispatch<React.SetStateAction<{ push: boolean; sms: boolean; whatsapp: boolean }>>;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [user, setUser] = useState<UserProfile>(initialUser);
-  const [resumes, setResumes] = useState<CvResume[]>(initialResumes);
-  const [templates] = useState<CVTemplate[]>(initialTemplates);
-  const [coverLetters, setCoverLetters] = useState<CoverLetter[]>(initialCoverLetters);
-  const [applications, setApplications] = useState<JobApplication[]>(initialApplications);
+  const [language, setLanguage] = useState<Language>('ru');
+  const [user, setUser] = useState<UserProfile>({
+    name: 'Ерлан Смағұлов',
+    phone: '+7 701 555 4321',
+    email: 'yerlan.farm@agroradar.kz',
+    farmName: 'Агро-Шаруашылық "Өтеген батыр"',
+    region: 'Алматинская область',
+    district: 'Илийский район',
+    isAuthenticated: true,
+  });
+
+  const [farm, setFarm] = useState<Farm>(initialFarm);
+  const [pastures, setPastures] = useState<Pasture[]>(initialPastures);
+  const [herds, setHerds] = useState<Herd[]>(initialHerds);
+  const [trackers, setTrackers] = useState<Tracker[]>(initialTrackers);
+  const [workers] = useState<Worker[]>(initialWorkers);
+  const [contracts, setContracts] = useState<Contract[]>(initialContracts);
   const [notifications, setNotifications] = useState<NotificationItem[]>(initialNotifications);
-  const [interviewQuestions] = useState<InterviewQuestion[]>(initialInterviewQuestions);
-  const [careerGoals] = useState<CareerGoal[]>(initialCareerGoals);
-
-  const [activeResumeId, setActiveResumeId] = useState<string | null>(resumes[0]?.id ?? null);
+  
+  const [emergencyAlert, setEmergencyAlert] = useState<EmergencyAlert | null>(null);
   const [isAiAssistantOpen, setIsAiAssistantOpen] = useState<boolean>(false);
+  const [isDemoMode, setIsDemoMode] = useState<boolean>(false);
+  
+  const [selectedPasture, setSelectedPasture] = useState<Pasture | null>(null);
+  const [selectedHerd, setSelectedHerd] = useState<Herd | null>(null);
 
-  const getResume = (id: string) => resumes.find((r) => r.id === id);
-  const activeResume = activeResumeId ? getResume(activeResumeId) ?? resumes[0] ?? null : resumes[0] ?? null;
+  const [safetyRadius, setSafetyRadius] = useState<number>(500); // meters
+  const [alertChannels, setAlertChannels] = useState({
+    push: true,
+    sms: true,
+    whatsapp: true,
+  });
 
-  const getTemplate = (id: string) => templates.find((t) => t.id === id);
+  const t = (key: string): string => {
+    return translations[language]?.[key] || translations['ru']?.[key] || key;
+  };
 
-  const addResume: AppContextType['addResume'] = (data) => {
-    const created: CvResume = {
-      ...data,
-      id: `cv-${Date.now()}`,
-      createdAt: new Date().toISOString().split('T')[0],
-      updatedAt: new Date().toISOString().split('T')[0],
-      stats: { views: 0, downloads: 0, applications: 0, interviews: 0, lastViewed: '—' },
+  const addPasture = (newPasture: Omit<Pasture, 'id'>) => {
+    const created: Pasture = {
+      ...newPasture,
+      id: `pasture-${Date.now()}`,
     };
-    setResumes((prev) => [created, ...prev]);
-    setActiveResumeId(created.id);
-    setUser((prev) => ({ ...prev, cvsCreated: prev.cvsCreated + 1 }));
-    return created;
+    setPastures((prev) => [...prev, created]);
+    setFarm((prev) => ({ ...prev, areaHectares: prev.areaHectares + created.areaHectares }));
   };
 
-  const updateResume = (id: string, patch: Partial<CvResume>) => {
-    setResumes((prev) =>
-      prev.map((r) =>
-        r.id === id
-          ? { ...r, ...patch, updatedAt: new Date().toISOString().split('T')[0] }
-          : r
-      )
-    );
-  };
-
-  const deleteResume = (id: string) => {
-    setResumes((prev) => prev.filter((r) => r.id !== id));
-    if (activeResumeId === id) {
-      setActiveResumeId(resumes.find((r) => r.id !== id)?.id ?? null);
-    }
-  };
-
-  const duplicateResume = (id: string) => {
-    const source = getResume(id);
-    if (!source) return;
-    const copy: CvResume = {
-      ...source,
-      id: `cv-${Date.now()}`,
-      name: `${source.name} (копия)`,
-      status: 'draft',
-      createdAt: new Date().toISOString().split('T')[0],
-      updatedAt: new Date().toISOString().split('T')[0],
-      stats: { views: 0, downloads: 0, applications: 0, interviews: 0, lastViewed: '—' },
+  const addHerd = (newHerd: Omit<Herd, 'id'>) => {
+    const created: Herd = {
+      ...newHerd,
+      id: `herd-${Date.now()}`,
     };
-    setResumes((prev) => [copy, ...prev]);
+    setHerds((prev) => [...prev, created]);
+    setFarm((prev) => ({
+      ...prev,
+      totalAnimals: prev.totalAnimals + created.headCount,
+    }));
   };
 
-  const addCoverLetter = (letter: Omit<CoverLetter, 'id' | 'createdAt'>) => {
-    const created: CoverLetter = {
-      ...letter,
-      id: `cl-${Date.now()}`,
+  const addTracker = (code: string, herdId?: string) => {
+    const herd = herds.find((h) => h.id === herdId);
+    const created: Tracker = {
+      id: `tr-${Date.now()}`,
+      code,
+      herdId,
+      herdName: herd?.name,
+      batteryLevel: 100,
+      lastPing: 'Только что',
+      status: 'online',
+      signalStrength: 'excellent',
+    };
+    setTrackers((prev) => [...prev, created]);
+  };
+
+  const addContract = (newContract: Omit<Contract, 'id' | 'createdAt'>) => {
+    const created: Contract = {
+      ...newContract,
+      id: `contract-${Date.now()}`,
       createdAt: new Date().toISOString().split('T')[0],
     };
-    setCoverLetters((prev) => [created, ...prev]);
-  };
-
-  const updateApplicationStatus = (id: string, status: JobApplication['status']) => {
-    setApplications((prev) => prev.map((a) => (a.id === id ? { ...a, status } : a)));
+    setContracts((prev) => [created, ...prev]);
   };
 
   const markNotificationRead = (id: string) => {
@@ -139,37 +151,65 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     );
   };
 
-  const markAllNotificationsRead = () => {
-    setNotifications((prev) => prev.map((n) => ({ ...n, isRead: true })));
+  const triggerEmergencyAlert = () => {
+    setEmergencyAlert(initialEmergencyAlert);
+  };
+
+  const resolveEmergencyAlert = () => {
+    setEmergencyAlert(null);
+  };
+
+  // Demo mode script execution
+  const startDemoMode = () => {
+    setIsDemoMode(true);
+    // Automatically trigger alert after 1.5 seconds for visual impact
+    setTimeout(() => {
+      triggerEmergencyAlert();
+    }, 1500);
+  };
+
+  const stopDemoMode = () => {
+    setIsDemoMode(false);
+    resolveEmergencyAlert();
   };
 
   return (
     <AppContext.Provider
       value={{
+        language,
+        setLanguage,
+        t,
         user,
         setUser,
-        resumes,
-        addResume,
-        updateResume,
-        deleteResume,
-        duplicateResume,
-        getResume,
-        setActiveResumeId,
-        activeResumeId,
-        activeResume,
-        templates,
-        getTemplate,
-        coverLetters,
-        addCoverLetter,
-        applications,
-        updateApplicationStatus,
+        farm,
+        setFarm,
+        pastures,
+        addPasture,
+        herds,
+        addHerd,
+        trackers,
+        addTracker,
+        workers,
+        contracts,
+        addContract,
         notifications,
         markNotificationRead,
-        markAllNotificationsRead,
-        interviewQuestions,
-        careerGoals,
+        emergencyAlert,
+        triggerEmergencyAlert,
+        resolveEmergencyAlert,
         isAiAssistantOpen,
         setIsAiAssistantOpen,
+        isDemoMode,
+        startDemoMode,
+        stopDemoMode,
+        selectedPasture,
+        setSelectedPasture,
+        selectedHerd,
+        setSelectedHerd,
+        safetyRadius,
+        setSafetyRadius,
+        alertChannels,
+        setAlertChannels,
       }}
     >
       {children}

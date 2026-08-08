@@ -47,6 +47,62 @@
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
+/* Leaflet map overrides */
+.leaflet-container {
+  width: 100%;
+  height: 100%;
+  background: #08140e !important;
+  font-family: inherit;
+}
+
+.leaflet-control-zoom {
+  border: none !important;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3) !important;
+}
+
+.leaflet-control-zoom a {
+  background-color: #12281c !important;
+  color: #f8fafc !important;
+  border-bottom: 1px solid rgba(255,255,255,0.1) !important;
+}
+
+.leaflet-control-zoom a:hover {
+  background-color: #1a3826 !important;
+}
+
+.leaflet-popup-content-wrapper {
+  background: #12281c !important;
+  color: #f8fafc !important;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 12px !important;
+  padding: 4px;
+}
+
+.leaflet-popup-tip {
+  background: #12281c !important;
+}
+
+/* Custom Marker Pulsing FX */
+@keyframes pulse-ring {
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
+  }
+  70% {
+    transform: scale(1.15);
+    box-shadow: 0 0 0 12px rgba(239, 68, 68, 0);
+  }
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);
+  }
+}
+
+.danger-pulse-marker {
+  animation: pulse-ring 2s infinite;
+  border-radius: 9999px;
+}
+
 /* Scrollbar customization */
 ::-webkit-scrollbar {
   width: 6px;

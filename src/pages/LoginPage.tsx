@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useApp } from '../context/AppContext';
-import { FilePenLine, ArrowRight, Lock, Mail } from 'lucide-react';
+import { Radar, ArrowRight, Lock, Phone } from 'lucide-react';
 
 export const LoginPage: React.FC = () => {
   const { setUser } = useApp();
   const navigate = useNavigate();
-  const [email, setEmail] = useState('alex.petrov@cvgen.ai');
+  const [phone, setPhone] = useState('+7 701 555 4321');
   const [password, setPassword] = useState('password123');
 
   const handleLogin = (e: React.FormEvent) => {
@@ -22,26 +22,26 @@ export const LoginPage: React.FC = () => {
           <Link to="/" className="inline-flex items-center space-x-2.5 mb-3">
             <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-400 p-0.5">
               <div className="w-full h-full bg-slate-950 rounded-[10px] flex items-center justify-center">
-                <FilePenLine className="w-6 h-6 text-emerald-400" />
+                <Radar className="w-6 h-6 text-emerald-400" />
               </div>
             </div>
-            <span className="text-2xl font-black text-white">
-              CV<span className="text-emerald-400">Gen</span>
-            </span>
+            <span className="text-2xl font-black text-white">AgroRadar</span>
           </Link>
-          <h2 className="text-xl font-bold text-white">Вход в аккаунт</h2>
-          <p className="text-xs text-slate-400 mt-1">Продолжите строить карьеру</p>
+          <h2 className="text-xl font-bold text-white">Вход в AgroRadar</h2>
+          <p className="text-xs text-slate-400 mt-1">Цифровой автопилот вашего хозяйства</p>
         </div>
 
         <form onSubmit={handleLogin} className="space-y-4">
           <div>
-            <label className="block text-xs font-semibold text-slate-300 mb-1.5">Email</label>
+            <label className="block text-xs font-semibold text-slate-300 mb-1.5">
+              Номер телефона
+            </label>
             <div className="relative">
-              <Mail className="w-4 h-4 text-slate-500 absolute left-3.5 top-3.5" />
+              <Phone className="w-4 h-4 text-slate-500 absolute left-3.5 top-3.5" />
               <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                type="text"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
                 required
                 className="w-full pl-10 pr-4 py-3 rounded-xl bg-slate-900 border border-slate-800 text-sm text-white focus:outline-none focus:border-emerald-500"
               />
@@ -79,7 +79,7 @@ export const LoginPage: React.FC = () => {
         <div className="mt-6 text-center text-xs text-slate-400">
           Ещё нет аккаунта?{' '}
           <Link to="/register" className="text-emerald-400 font-bold hover:underline">
-            Создать бесплатно
+            Зарегистрироваться
           </Link>
         </div>
       </div>
