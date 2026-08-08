@@ -45,7 +45,7 @@ npm run dev:api
 ```
 
 (обычный `npm run dev` поднимает только статику через Vite и не обслуживает
-`/api` — для этого нужен `vercel dev`, который запускает `dev:api`.)
+`/api` — для этого нужен `vercel dev`, команда `npm run dev:api` его и запускает.)
 
 Переменные окружения (см. `.env.example`):
 - `GEMINI_API_KEY` — обязателен.
