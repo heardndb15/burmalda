@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Radar, ArrowLeft, Phone, CheckCircle2 } from 'lucide-react';
+import { FilePenLine, ArrowLeft, Mail, CheckCircle2 } from 'lucide-react';
 
 export const ForgotPasswordPage: React.FC = () => {
-  const [phone, setPhone] = useState('');
+  const [email, setEmail] = useState('');
   const [isSent, setIsSent] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -18,10 +18,12 @@ export const ForgotPasswordPage: React.FC = () => {
           <Link to="/" className="inline-flex items-center space-x-2.5 mb-2">
             <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-400 p-0.5">
               <div className="w-full h-full bg-slate-950 rounded-[10px] flex items-center justify-center">
-                <Radar className="w-5 h-5 text-emerald-400" />
+                <FilePenLine className="w-5 h-5 text-emerald-400" />
               </div>
             </div>
-            <span className="text-xl font-black text-white">AgroRadar</span>
+            <span className="text-xl font-black text-white">
+              CV<span className="text-emerald-400">Gen</span>
+            </span>
           </Link>
           <h2 className="text-lg font-bold text-white">Восстановление доступа</h2>
         </div>
@@ -30,7 +32,7 @@ export const ForgotPasswordPage: React.FC = () => {
           <div className="text-center py-4 space-y-3">
             <CheckCircle2 className="w-12 h-12 text-emerald-400 mx-auto" />
             <p className="text-xs text-slate-300">
-              Инструкция по сбросу пароля отправлена по SMS на номер <strong className="text-white">{phone}</strong>
+              Инструкция отправлена на <strong className="text-white">{email}</strong>
             </p>
             <Link
               to="/login"
@@ -43,26 +45,25 @@ export const ForgotPasswordPage: React.FC = () => {
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label className="block text-xs font-semibold text-slate-300 mb-1.5">
-                Введите ваш номер телефона
+                Введите ваш email
               </label>
               <div className="relative">
-                <Phone className="w-4 h-4 text-slate-500 absolute left-3.5 top-3.5" />
+                <Mail className="w-4 h-4 text-slate-500 absolute left-3.5 top-3.5" />
                 <input
-                  type="text"
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
-                  placeholder="+7 701 000 0000"
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="you@example.com"
                   required
                   className="w-full pl-10 pr-4 py-3 rounded-xl bg-slate-900 border border-slate-800 text-xs text-white"
                 />
               </div>
             </div>
-
             <button
               type="submit"
               className="w-full py-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow-lg transition"
             >
-              Отправить SMS с кодом
+              Отправить ссылку для сброса
             </button>
           </form>
         )}

@@ -10,13 +10,13 @@ interface ChatMessage {
 }
 
 export const AIAssistant: React.FC = () => {
-  const { isAiAssistantOpen, setIsAiAssistantOpen, t } = useApp();
+  const { isAiAssistantOpen, setIsAiAssistantOpen } = useApp();
   const [input, setInput] = useState('');
   const [messages, setMessages] = useState<ChatMessage[]>([
     {
       id: '1',
       sender: 'ai',
-      text: 'Сәлеметсіз бе! Я AI-ассистент AgroRadar. Чем могу помочь по вашему хозяйству сегодня?',
+      text: 'Привет! Я AI-ассистент CVGen. Могу улучшить резюме, написать сопроводительное письмо или подготовить к собеседованию. Чем помочь?',
       timestamp: 'Только что',
     },
   ]);
@@ -24,10 +24,10 @@ export const AIAssistant: React.FC = () => {
   if (!isAiAssistantOpen) return null;
 
   const quickQuestions = [
-    'Куда лучше перегнать стадо?',
-    'Почему пастбище №2 стало жёлтым?',
-    'Покажи стада рядом с дорогой.',
-    'Когда заканчивается договор Ерлана?',
+    'Улучши мой Summary',
+    'Какие навыки добавить?',
+    'Напиши cover letter',
+    'Проверь ATS-совместимость',
   ];
 
   const handleSend = (textToSend?: string) => {
@@ -44,26 +44,25 @@ export const AIAssistant: React.FC = () => {
     setMessages((prev) => [...prev, userMsg]);
     if (!textToSend) setInput('');
 
-    // Generate intelligent AgroRadar response
     setTimeout(() => {
-      let aiText = 'AgroRadar проанализировал данные хозяйства. ';
+      let aiText = 'CVGen проанализировал ваше резюме. ';
       const lower = query.toLowerCase();
 
-      if (lower.includes('перегнать') || lower.includes('куда')) {
+      if (lower.includes('summary') || lower.includes('резюме в целом') || lower.includes('улучш')) {
         aiText =
-          '🌱 **Рекомендация по перегону:** Переведите Стадо №1 на **Пастбище №3 (Шығыс)**. Кормового запаса хватит на **12 дней**. На участке есть озеро Жайлау и отличная вегетация (NDVI 0.84). Маршрут безопасен.';
-      } else if (lower.includes('красным') || lower.includes('жёлтым') || lower.includes('пастбище')) {
+          '✨ **Рекомендация по Summary:** Начните с сильного результата: «Fullstack-разработчик с 9-летним опытом; сократил время загрузки дашбордов на 74% и вёл команду из 8 человек». Добавьте 2–3 цифры — конверсия в интервью растёт на 38% при упоминании метрик.';
+      } else if (lower.includes('навык') || lower.includes('скилл')) {
         aiText =
-          '🌾 **Анализ Пастбища №2:** Состояние участка "Среднее" (🟡), так как там выпас продолжается 20 дней без осадков и отсутствует автономная скважина. Кормовой запас: 7 дней.';
-      } else if (lower.includes('дорог') || lower.includes('трасс') || lower.includes('опасн')) {
+          '⚡ **Навыки для добавления:** по вашим вакансиям не хватает: **Redis**, **Kafka**, **Next.js App Router**. Совместимость с ATS вырастет примерно на 6%. Обновите раздел «Навыки».';
+      } else if (lower.includes('cover') || lower.includes('письм') || lower.includes('сопроводи')) {
         aiText =
-          '🚨 **Безопасность:** Стадо №2 (Табун лошадей) находится в **430 м от трассы A-3**. Скорость движения 1.8 км/ч. Пастух Айбек Қасымов оповещён.';
-      } else if (lower.includes('договор') || lower.includes('ерлан') || lower.includes('пастух')) {
+          '📄 **Сопроводительное письмо готово** (черновик): «Здравствуйте! Меня зовут Алексей Петров. За 9 лет я построил 20+ продуктов и сокращал время релиза в среднем на 60%...» Откройте раздел «Письма», чтобы отредактировать и отправить.';
+      } else if (lower.includes('ats') || lower.includes('совмест') || lower.includes('провер')) {
         aiText =
-          '👨‍🌾 **Договор пастуха:** Контракт со старшим пастухом Ерланом Смағұловым истекает **15 августа 2026 г.** (через 7 дней). Сформируйте продление на странице "Договоры".';
+          '🛡️ **ATS-анализ «Fullstack Developer 2026»:** оценка **92/100**. Рекомендации: замените «профессиональный» на «Senior», добавьте раздел «Сертификаты» в начало, избегайте таблиц и графики — ATS их не читает.';
       } else {
         aiText =
-          '🛰️ **AgroRadar Статус:** Все спутниковые показатели вегетации и GPS-трекеры функционируют штатно. Общее состояние хозяйства: 🟢 Хорошее (3 480 га).';
+          '📊 **Статус карьеры:** у вас 3 резюме, активный поиск, 23 отклика и 9 интервью за последние 6 месяцев. Конверсия в интервью **39%** — это выше среднего по нише (27%). Продолжайте откликаться на 3–5 вакансий в неделю.';
       }
 
       const aiMsg: ChatMessage = {
@@ -80,7 +79,6 @@ export const AIAssistant: React.FC = () => {
   return (
     <div className="fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-sm flex justify-end p-2 sm:p-4">
       <div className="w-full max-w-md bg-slate-900 border border-emerald-500/30 rounded-2xl flex flex-col h-full max-h-[680px] shadow-2xl overflow-hidden">
-        {/* Header */}
         <div className="p-4 bg-slate-950 border-b border-slate-800 flex items-center justify-between">
           <div className="flex items-center space-x-3">
             <div className="w-9 h-9 rounded-xl bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-emerald-400">
@@ -88,12 +86,12 @@ export const AIAssistant: React.FC = () => {
             </div>
             <div>
               <h3 className="text-sm font-bold text-white flex items-center gap-1.5">
-                {t('aiAssistantTitle')}
+                CVGen AI
                 <Sparkles className="w-3.5 h-3.5 text-amber-400" />
               </h3>
               <span className="text-[11px] text-emerald-400 flex items-center gap-1">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                Онлайн · ИИ Автопилот
+                Онлайн · Карьерный коуч
               </span>
             </div>
           </div>
@@ -105,13 +103,9 @@ export const AIAssistant: React.FC = () => {
           </button>
         </div>
 
-        {/* Messages */}
         <div className="flex-1 p-4 overflow-y-auto space-y-3.5">
           {messages.map((m) => (
-            <div
-              key={m.id}
-              className={`flex ${m.sender === 'user' ? 'justify-end' : 'justify-start'}`}
-            >
+            <div key={m.id} className={`flex ${m.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
               <div
                 className={`max-w-[85%] rounded-2xl p-3.5 text-xs leading-relaxed ${
                   m.sender === 'user'
@@ -119,16 +113,17 @@ export const AIAssistant: React.FC = () => {
                     : 'bg-slate-800 text-slate-200 border border-slate-700 rounded-bl-none'
                 }`}
               >
-                <div dangerouslySetInnerHTML={{ __html: m.text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') }} />
-                <span className="block text-[10px] opacity-60 text-right mt-1.5">
-                  {m.timestamp}
-                </span>
+                <div
+                  dangerouslySetInnerHTML={{
+                    __html: m.text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>'),
+                  }}
+                />
+                <span className="block text-[10px] opacity-60 text-right mt-1.5">{m.timestamp}</span>
               </div>
             </div>
           ))}
         </div>
 
-        {/* Quick Suggestion Chips */}
         <div className="px-3 py-2 bg-slate-950/60 border-t border-slate-800 overflow-x-auto whitespace-nowrap">
           <div className="flex items-center space-x-2 text-[11px]">
             <HelpCircle className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
@@ -144,14 +139,13 @@ export const AIAssistant: React.FC = () => {
           </div>
         </div>
 
-        {/* Input bar */}
         <div className="p-3 bg-slate-950 border-t border-slate-800 flex items-center space-x-2">
           <input
             type="text"
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && handleSend()}
-            placeholder={t('aiPromptPlaceholder')}
+            placeholder="Спросите AI-коуча..."
             className="flex-1 px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-800 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500"
           />
           <button

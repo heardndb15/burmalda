@@ -1,144 +1,209 @@
-export type Language = 'ru' | 'kk' | 'en';
+export type CVStatus = 'draft' | 'in_progress' | 'completed' | 'optimized';
 
-export type AnimalType = 'cattle' | 'horse' | 'sheep' | 'goat' | 'camel';
-
-export type PastureHealth = 'good' | 'medium' | 'depleted'; // 🟢 🟡 🔴
-
-export interface Farm {
-  id: string;
-  name: string;
-  region: string;
-  district: string;
-  areaHectares: number;
-  ownerName: string;
-  phone: string;
-  email: string;
-  cattleCount: number;
-  horseCount: number;
-  sheepCount: number;
-  goatCount: number;
-  camelCount: number;
-  totalAnimals: number;
-  createdAt: string;
-}
-
-export interface PastureHistoryItem {
-  month: string;
-  health: PastureHealth;
-  ndvi: number; // 0.0 to 1.0
-  feedDays: number;
-}
-
-export interface Pasture {
-  id: string;
-  farmId: string;
-  name: string;
-  areaHectares: number;
-  health: PastureHealth;
-  ndviScore: number;
-  feedDaysRemaining: number;
-  hasWater: boolean;
-  waterSources: string[];
-  coordinates: [number, number][]; // Lat, Lng polygon
-  center: [number, number];
-  history: PastureHistoryItem[];
-  notes?: string;
-  currentHerdId?: string;
-}
-
-export interface Herd {
-  id: string;
-  farmId: string;
-  name: string;
-  animalType: AnimalType;
-  headCount: number;
-  shepherdId: string;
-  shepherdName: string;
-  currentPastureId: string;
-  currentPastureName: string;
-  trackerId: string;
-  status: 'safe' | 'warning' | 'danger';
-  currentLocation: [number, number]; // Lat, Lng
-  routeHistory: [number, number][];
-  speedKmh: number;
-  headingDirection: string;
-  distanceToRoadMeters: number;
-  nearestWaterName: string;
-  nearestWaterDistanceMeters: number;
-  isLiveTracking: boolean;
-}
-
-export interface Tracker {
-  id: string;
-  code: string;
-  herdId?: string;
-  herdName?: string;
-  batteryLevel: number;
-  lastPing: string;
-  status: 'online' | 'offline' | 'low_battery';
-  signalStrength: 'excellent' | 'good' | 'fair' | 'poor';
-}
-
-export interface Worker {
-  id: string;
+export interface PersonalInfo {
   fullName: string;
-  rating: number;
-  experienceYears: number;
-  region: string;
-  district: string;
-  animalTypes: AnimalType[];
-  completionRate: number;
+  headline: string;
+  email: string;
   phone: string;
-  avatarUrl: string;
-  isAvailable: boolean;
-  bio: string;
-  completedContractsCount: number;
-  reviews: { author: string; rating: number; date: string; comment: string }[];
+  location: string;
+  summary: string;
+  website: string;
+  linkedin: string;
+  telegram: string;
+  github: string;
+  photoUrl: string;
 }
 
-export interface Contract {
+export interface WorkExperience {
   id: string;
-  workerId: string;
-  workerName: string;
-  farmId: string;
-  farmName: string;
+  company: string;
   position: string;
-  monthlySalaryKzt: number;
+  location: string;
   startDate: string;
   endDate: string;
-  status: 'active' | 'pending' | 'completed';
-  duties: string;
-  aiGenerated: boolean;
+  current: boolean;
+  description: string;
+  achievements: string[];
+  techStack: string[];
+}
+
+export interface EducationItem {
+  id: string;
+  institution: string;
+  degree: string;
+  field: string;
+  startDate: string;
+  endDate: string;
+  gpa: string;
+  description: string;
+}
+
+export type SkillLevel = 'beginner' | 'intermediate' | 'advanced' | 'expert';
+
+export interface SkillItem {
+  id: string;
+  name: string;
+  level: SkillLevel;
+  category: string;
+  years: number;
+}
+
+export interface LanguageSkill {
+  id: string;
+  name: string;
+  level: string;
+  levelPercent: number;
+  certification?: string;
+}
+
+export interface Certificate {
+  id: string;
+  name: string;
+  issuer: string;
+  date: string;
+  credentialUrl: string;
+  verified: boolean;
+}
+
+export interface ProjectItem {
+  id: string;
+  name: string;
+  role: string;
+  description: string;
+  techStack: string[];
+  url: string;
+  gradient: string;
+  highlights: string[];
+}
+
+export interface ReferenceItem {
+  id: string;
+  name: string;
+  position: string;
+  company: string;
+  email: string;
+  phone: string;
+  relation: string;
+  rating: number;
+}
+
+export interface AchievementItem {
+  id: string;
+  title: string;
+  date: string;
+  category: 'professional' | 'academic' | 'sport' | 'volunteer' | 'community';
+  description: string;
+}
+
+export interface CVStats {
+  views: number;
+  downloads: number;
+  applications: number;
+  interviews: number;
+  lastViewed: string;
+}
+
+export interface CvResume {
+  id: string;
+  name: string;
+  title: string;
+  templateId: string;
+  status: CVStatus;
+  atsScore: number;
+  compatibility: number;
+  completeness: number;
   createdAt: string;
+  updatedAt: string;
+  stats: CVStats;
+  personalInfo: PersonalInfo;
+  workExperience: WorkExperience[];
+  education: EducationItem[];
+  skills: SkillItem[];
+  languages: LanguageSkill[];
+  certificates: Certificate[];
+  projects: ProjectItem[];
+  references: ReferenceItem[];
+  achievements: AchievementItem[];
+}
+
+export interface CVTemplate {
+  id: string;
+  name: string;
+  category: 'classic' | 'modern' | 'creative' | 'technical';
+  description: string;
+  accentColor: string;
+  previewGradient: string;
+  isPremium: boolean;
+  suitability: string[];
+  popular?: boolean;
+}
+
+export interface CoverLetter {
+  id: string;
+  resumeId: string;
+  resumeName: string;
+  company: string;
+  position: string;
+  tone: 'formal' | 'professional' | 'friendly';
+  aiGenerated: boolean;
+  status: 'draft' | 'ready' | 'sent';
+  createdAt: string;
+  content: string;
+}
+
+export interface JobApplication {
+  id: string;
+  company: string;
+  position: string;
+  salary: string;
+  status: 'saved' | 'applied' | 'interview' | 'offer' | 'rejected';
+  source: string;
+  date: string;
+  resumeName: string;
+  notes: string;
+  matchScore: number;
 }
 
 export interface NotificationItem {
   id: string;
   title: string;
   message: string;
-  type: 'danger' | 'warning' | 'info' | 'success';
+  type: 'success' | 'warning' | 'danger' | 'info';
   timestamp: string;
   isRead: boolean;
   link?: string;
 }
 
-export interface EmergencyAlert {
+export interface InterviewQuestion {
   id: string;
-  herdId: string;
-  herdName: string;
-  distanceMeters: number;
-  speedKmh: number;
-  direction: string;
-  timestamp: string;
-  isResolved: boolean;
+  category: string;
+  question: string;
+  answer: string;
+  difficulty: 'easy' | 'medium' | 'hard';
+  rating: number;
+}
+
+export interface CareerGoal {
+  id: string;
+  title: string;
+  timeframe: string;
+  status: 'active' | 'completed' | 'planned';
+  progress: number;
+  milestones: string[];
 }
 
 export interface UserProfile {
   name: string;
-  phone: string;
   email: string;
-  farmName: string;
-  region: string;
-  district: string;
+  phone: string;
+  location: string;
+  headline: string;
+  targetRole: string;
+  experienceYears: number;
+  plan: 'free' | 'pro' | 'team';
   isAuthenticated: boolean;
+  avatarUrl: string;
+  cvsCreated: number;
+  linkedinConnected: boolean;
+  githubConnected: boolean;
 }
