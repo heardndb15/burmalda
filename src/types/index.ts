@@ -133,6 +133,8 @@ export interface EmergencyAlert {
   isResolved: boolean;
 }
 
+export type UserRole = 'FARMER' | 'WORKER' | 'AKIMAT_ADMIN' | 'BANK_ANALYST' | 'SUPER_ADMIN';
+
 export interface UserProfile {
   name: string;
   phone: string;
@@ -141,4 +143,214 @@ export interface UserProfile {
   region: string;
   district: string;
   isAuthenticated: boolean;
+  role: UserRole;
 }
+
+export interface Organization {
+  id: string;
+  name: string;
+  type: 'farm' | 'cooperative' | 'agrokombinat';
+  district: string;
+  region: string;
+  areaHectares: number;
+  cattleCount: number;
+  horseCount: number;
+  sheepCount: number;
+  pastureCondition: 'good' | 'medium' | 'depleted';
+  riskLevel: 'low' | 'medium' | 'high';
+  status: 'active' | 'under_review' | 'inactive';
+  cadastralCode: string;
+  bin: string;
+  ownerName: string;
+  phone: string;
+}
+
+export interface LandUseObservation {
+  id: string;
+  plotId: string;
+  plotName: string;
+  areaHectares: number;
+  ownerName: string;
+  bin: string;
+  observedActivityLevel: 'high' | 'medium' | 'low' | 'none';
+  periodMonths: number;
+  status: 'used' | 'not_used' | 'requires_verification';
+  reason: string;
+  coordinates: [number, number][];
+  lastSatelliteCheck: string;
+  cadastralNumber: string;
+}
+
+export interface GovernmentDistrict {
+  id: string;
+  name: string;
+  region: string;
+  totalPastureAreaHa: number;
+  activeFarmsCount: number;
+  totalLivestock: number;
+  degradationPercentage: number;
+  unusedPlotsCount: number;
+  dangerZonesCount: number;
+}
+
+export interface GovernmentAlert {
+  id: string;
+  type: 'high_load' | 'degradation' | 'requires_verification' | 'water_shortage' | 'fire_risk';
+  severity: 'high' | 'warning' | 'info';
+  title: string;
+  locationName: string;
+  plotId?: string;
+  farmName?: string;
+  description: string;
+  timestamp: string;
+  status: 'active' | 'investigating' | 'resolved';
+}
+
+export interface ManagementPlan {
+  id: string;
+  period: string; // e.g. "2027-2028"
+  territoryName: string;
+  status: 'draft' | 'under_review' | 'approved';
+  createdAt: string;
+  goals: string[];
+  pasturesCount: number;
+  recommendedRotation: string;
+  riskZonesCount: number;
+  waterInfrastructureNotes: string;
+  recommendations: string[];
+  isAiGenerated: boolean;
+}
+
+export interface SpatialRiskFactors {
+  droughtRisk: 'low' | 'medium' | 'high';
+  fireRisk: 'low' | 'medium' | 'high';
+  erosionRisk: 'low' | 'medium' | 'high';
+  roadDangerZones: number;
+}
+
+export interface FinancialPassport {
+  id: string; // e.g. "AR-2026-000124"
+  farmId: string;
+  farmName: string;
+  bin: string;
+  cadastralNumber: string;
+  createdAt: string;
+  periodYears: number;
+  pastureHealthScore: number; // 0-100 e.g. 82
+  category: string; // e.g. "B — Хорошая устойчивость"
+  feedCapacityAreaHa: number; // 1240
+  feedCapacityUgs: number; // 120
+  currentHerdUgs: number; // 96
+  feedCapacityRatioPct: number; // 80%
+  waterSourcesWithin3km: number;
+  waterStatus: 'good' | 'medium' | 'poor';
+  spatialRisk: SpatialRiskFactors;
+  feedReliabilityScore: number; // 84
+  waterSecurityScore: number; // 91
+  pastureStabilityScore: number; // 78
+  spatialRiskScore: number; // 74
+  overallScore: number; // 82
+  verified: boolean;
+  bankConsentGranted: boolean;
+  qrCodeUrl: string;
+}
+
+export interface BankApplication {
+  id: string;
+  farmId: string;
+  farmName: string;
+  passportId: string;
+  requestedAmountKzt: number;
+  purpose: string;
+  agroRadarScore: number;
+  status: 'new' | 'reviewing' | 'approved' | 'rejected';
+  submittedDate: string;
+}
+
+export interface InspectionTask {
+  id: string;
+  plotId: string;
+  plotName: string;
+  ownerName: string;
+  assignedTo: string;
+  createdDate: string;
+  status: 'pending' | 'in_progress' | 'completed';
+  reason: string;
+  notes?: string;
+}
+
+export interface ApiKey {
+  key: string;
+  clientName: string;
+  createdAt: string;
+  status: 'active' | 'revoked';
+}
+
+export interface ApiRequest {
+  id: string;
+  endpoint: string;
+  method: string;
+  timestamp: string;
+  status: number;
+}
+
+export interface AuditLogEntry {
+  id: string;
+  userRole: UserRole;
+  userName: string;
+  action: string;
+  target: string;
+  timestamp: string;
+  ipAddress: string;
+}
+
+export interface WaterSource {
+  id: string;
+  name: string;
+  type: 'well' | 'lake' | 'river' | 'tank';
+  status: 'available' | 'unavailable';
+  coordinates: [number, number];
+}
+
+export interface DangerZone {
+  id: string;
+  name: string;
+  type: 'road' | 'railway' | 'erosion';
+  severity: 'critical' | 'warning' | 'info';
+  coordinates: [number, number][];
+  radius?: number;
+}
+
+export interface NDVIObservation {
+  pastureId: string;
+  date: string;
+  ndvi: number;
+  healthStatus: 'good' | 'medium' | 'depleted' | 'critical';
+  feedDays: number;
+  recommendation: string;
+}
+
+export interface PastureRecommendation {
+  pastureId: string;
+  ndvi: number;
+  feedDays: number;
+  recommendation: string;
+  actionRequired: boolean;
+}
+
+export interface SatelliteObservation {
+  observationId: string;
+  plotId: string;
+  timestamp: string;
+  satelliteConstellation: 'Sentinel-2' | 'Landsat-9' | 'Copernicus-DEM';
+  ndvi: number;
+  ndwi: number;
+  evi: number;
+  cloudCoverPct: number;
+  health: PastureHealth;
+  biomassKgPerHa: number;
+  soilMoisturePct: number;
+}
+
+
+

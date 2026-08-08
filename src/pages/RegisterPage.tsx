@@ -54,6 +54,7 @@ export const RegisterPage: React.FC = () => {
         region,
         district,
         isAuthenticated: true,
+        role: 'FARMER',
       });
       setStep(4);
       confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });

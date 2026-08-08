@@ -1,6 +1,7 @@
 import React from 'react';
 import { useApp } from '../../context/AppContext';
 import { Language } from '../../types';
+import { RoleSwitcher } from './RoleSwitcher';
 import {
   Radar,
   Globe,
@@ -9,8 +10,10 @@ import {
   Bot,
   AlertTriangle,
   Menu,
+  Network,
+  Scale,
 } from 'lucide-react';
-import { Link, useNavigate } from 'react-router-dom'; // Note: react-router-dom
+import { Link, useNavigate } from 'react-router-dom';
 
 export const Header: React.FC<{ onToggleMobileMenu?: () => void }> = ({ onToggleMobileMenu }) => {
   const {
@@ -54,10 +57,31 @@ export const Header: React.FC<{ onToggleMobileMenu?: () => void }> = ({ onToggle
             </span>
           </div>
         </Link>
+
+        {/* Ecosystem & Legal Links */}
+        <div className="hidden xl:flex items-center space-x-2 pl-4 border-l border-slate-800">
+          <Link
+            to="/ecosystem"
+            className="flex items-center space-x-1.5 px-2.5 py-1 rounded-lg text-xs font-semibold text-slate-300 hover:text-emerald-400 hover:bg-slate-900 transition"
+          >
+            <Network className="w-3.5 h-3.5 text-teal-400" />
+            <span>Экосистема</span>
+          </Link>
+          <Link
+            to="/legal/data-methodology"
+            className="flex items-center space-x-1.5 px-2.5 py-1 rounded-lg text-xs font-semibold text-slate-300 hover:text-emerald-400 hover:bg-slate-900 transition"
+          >
+            <Scale className="w-3.5 h-3.5 text-indigo-400" />
+            <span>Методология</span>
+          </Link>
+        </div>
       </div>
 
-      {/* Right section: Demo Mode, Emergency Sim, i18n, AI assistant, Notifications */}
+      {/* Right section: Role Switcher, Demo Mode, Emergency Sim, i18n, AI assistant, Notifications */}
       <div className="flex items-center space-x-2 sm:space-x-3">
+        {/* Role Switcher Persona Dropdown */}
+        <RoleSwitcher />
+
         {/* Investor Demo Mode CTA */}
         {isDemoMode ? (
           <button
@@ -65,7 +89,7 @@ export const Header: React.FC<{ onToggleMobileMenu?: () => void }> = ({ onToggle
             className="flex items-center space-x-1.5 px-3 py-1.5 rounded-lg bg-amber-500/20 border border-amber-500/40 text-amber-300 text-xs font-semibold animate-pulse hover:bg-amber-500/30 transition"
           >
             <span className="w-2 h-2 rounded-full bg-amber-400 animate-ping" />
-            <span>{t('demoModeActive')} (Stop)</span>
+            <span>{t('demoModeActive')}</span>
           </button>
         ) : (
           <button
@@ -139,3 +163,4 @@ export const Header: React.FC<{ onToggleMobileMenu?: () => void }> = ({ onToggle
     </header>
   );
 };
+

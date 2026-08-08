@@ -2,11 +2,19 @@ import React, { useState } from 'react';
 import { useApp } from '../context/AppContext';
 import { useNavigate } from 'react-router-dom';
 import { Pasture } from '../types';
-import { Trees, Plus, Eye, Droplets, Calendar, Sparkles, X } from 'lucide-react';
+import { Trees, Plus, Eye, Droplets, Calendar, Sparkles, X, TrendingDown, AlertTriangle } from 'lucide-react';
+import { pasturesData } from '../data/pastures';
+import { NDVIEngine } from '../services/satellite/NDVIEngine';
 
 export const PasturesPage: React.FC = () => {
-  const { pastures, addPasture, t, setSelectedPasture } = useApp();
+  const { pastures: contextPastures, addPasture, t, setSelectedPasture } = useApp();
   const navigate = useNavigate();
+  
+  // Merge demo data with context data (context entries override by id)
+  const demoById = Object.fromEntries(pasturesData.map((p) => [p.id, p]));
+  const contextById = Object.fromEntries(contextPastures.map((p) => [p.id, p]));
+  const merged = Object.values({ ...demoById, ...contextById });
+  const pastures = merged;
 
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [name, setName] = useState('');
@@ -64,11 +72,54 @@ export const PasturesPage: React.FC = () => {
         </button>
       </div>
 
+      {/* NDVI Summary Strip */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+        <div className="glass-panel p-3 rounded-xl border border-slate-800 text-center">
+          <p className="text-[10px] text-slate-400 font-semibold uppercase mb-1">Всего участков</p>
+          <p className="text-xl font-black text-white">{pastures.length}</p>
+        </div>
+        <div className="glass-panel p-3 rounded-xl border border-emerald-500/30 text-center">
+          <p className="text-[10px] text-slate-400 font-semibold uppercase mb-1">🟢 Хорошее</p>
+          <p className="text-xl font-black text-emerald-400">
+            {pastures.filter((p) => p.ndviScore >= 0.70).length}
+          </p>
+        </div>
+        <div className="glass-panel p-3 rounded-xl border border-amber-500/30 text-center">
+          <p className="text-[10px] text-slate-400 font-semibold uppercase mb-1">🟡 Среднее</p>
+          <p className="text-xl font-black text-amber-400">
+            {pastures.filter((p) => p.ndviScore >= 0.40 && p.ndviScore < 0.70).length}
+          </p>
+        </div>
+        <div className="glass-panel p-3 rounded-xl border border-red-500/30 text-center">
+          <p className="text-[10px] text-slate-400 font-semibold uppercase mb-1">🔴 Истощение</p>
+          <p className="text-xl font-black text-red-400">
+            {pastures.filter((p) => p.ndviScore < 0.40).length}
+          </p>
+        </div>
+      </div>
+
+      {/* Critical NDVI Warning Banner */}
+      {pastures.filter((p) => p.ndviScore < 0.40).length > 0 && (
+        <div className="glass-panel p-4 rounded-2xl border border-red-500/40 bg-red-950/15 flex items-start space-x-3">
+          <AlertTriangle className="w-5 h-5 text-red-400 shrink-0 mt-0.5" />
+          <div>
+            <p className="text-sm font-extrabold text-red-400">Требуется ротация стада</p>
+            <p className="text-xs text-slate-300 mt-0.5">
+              {pastures.filter((p) => p.ndviScore < 0.40).map((p) => p.name).join(', ')} — запас корма критически низкий.
+              Рекомендуется перевод стад на пастбище с NDVI {'>'} 0.70.
+            </p>
+          </div>
+        </div>
+      )}
+
       {/* Pastures Grid Cards */}
       <div className="grid md:grid-cols-3 gap-4">
         {pastures.map((pasture) => {
-          const isGood = pasture.health === 'good';
-          const isMedium = pasture.health === 'medium';
+          const ndviScore = pasture.ndviScore;
+          const analysis = NDVIEngine.analyzeNDVI(ndviScore);
+          const isGood = ndviScore >= 0.70;
+          const isMedium = ndviScore >= 0.40 && ndviScore < 0.70;
+          const barWidth = Math.round(ndviScore * 100);
 
           return (
             <div
@@ -94,32 +145,51 @@ export const PasturesPage: React.FC = () => {
                   >
                     {isGood ? '🟢 Хорошее' : isMedium ? '🟡 Среднее' : '🔴 Истощается'}
                   </span>
-                  <span className="text-xs font-bold text-slate-400">
-                    NDVI {pasture.ndviScore}
+                  <span className="text-xs font-bold text-slate-400 font-mono">
+                    NDVI {ndviScore}
                   </span>
                 </div>
 
                 <h3 className="text-lg font-black text-white mb-1">{pasture.name}</h3>
-                <p className="text-xs text-slate-400 mb-4">Площадь: {pasture.areaHectares} га</p>
+                <p className="text-xs text-slate-400 mb-3">Площадь: {pasture.areaHectares} га</p>
+
+                {/* NDVI Progress Bar */}
+                <div className="mb-3">
+                  <div className="flex justify-between text-[10px] text-slate-500 mb-1">
+                    <span>NDVI вегетация</span>
+                    <span>{barWidth}%</span>
+                  </div>
+                  <div className="w-full h-2 rounded-full bg-slate-800">
+                    <div
+                      className={`h-2 rounded-full transition-all ${
+                        isGood ? 'bg-emerald-500' : isMedium ? 'bg-amber-500' : 'bg-red-500'
+                      }`}
+                      style={{ width: `${barWidth}%` }}
+                    />
+                  </div>
+                </div>
 
                 <div className="space-y-2 p-3 rounded-xl bg-slate-900/60 border border-slate-800 text-xs">
                   <div className="flex justify-between">
                     <span className="text-slate-400">Кормовой запас:</span>
-                    <strong className="text-white">{pasture.feedDaysRemaining} дней</strong>
+                    <strong className={`${pasture.feedDaysRemaining <= 3 ? 'text-red-400' : 'text-white'}`}>
+                      {pasture.feedDaysRemaining} дней
+                    </strong>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-slate-400">Наличие воды:</span>
                     <strong className="text-white">
-                      {pasture.hasWater ? `💧 ${pasture.waterSources.join(', ')}` : 'Нет'}
+                      {pasture.hasWater ? `💧 ${pasture.waterSources[0] || 'Есть'}` : 'Нет'}
                     </strong>
                   </div>
                 </div>
 
-                {pasture.notes && (
-                  <p className="text-[11px] text-slate-400 italic mt-3 line-clamp-2">
-                    "{pasture.notes}"
-                  </p>
-                )}
+                {/* Inline recommendation */}
+                <p className={`text-[11px] mt-2 leading-relaxed ${
+                  isGood ? 'text-emerald-400/70' : isMedium ? 'text-amber-400/70' : 'text-red-400 font-semibold'
+                }`}>
+                  {analysis.recommendation.substring(0, 80)}...
+                </p>
               </div>
 
               <div className="mt-5 grid grid-cols-2 gap-2 pt-3 border-t border-slate-800/80">

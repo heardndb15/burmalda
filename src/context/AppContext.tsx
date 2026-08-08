@@ -10,6 +10,13 @@ import {
   NotificationItem,
   EmergencyAlert,
   UserProfile,
+  UserRole,
+  Organization,
+  LandUseObservation,
+  GovernmentAlert,
+  FinancialPassport,
+  AuditLogEntry,
+  InspectionTask,
 } from '../types';
 import {
   initialFarm,
@@ -20,6 +27,12 @@ import {
   initialContracts,
   initialNotifications,
   initialEmergencyAlert,
+  initialDistrict,
+  initialOrganizations,
+  initialLandUseObservations,
+  initialGovernmentAlerts,
+  initialFinancialPassports,
+  initialAuditLogs,
 } from '../services/mockData';
 import { translations } from '../i18n/translations';
 
@@ -29,6 +42,8 @@ interface AppContextType {
   t: (key: string) => string;
   user: UserProfile;
   setUser: React.Dispatch<React.SetStateAction<UserProfile>>;
+  userRole: UserRole;
+  setUserRole: (role: UserRole) => void;
   farm: Farm;
   setFarm: React.Dispatch<React.SetStateAction<Farm>>;
   pastures: Pasture[];
@@ -58,6 +73,20 @@ interface AppContextType {
   setSafetyRadius: (r: number) => void;
   alertChannels: { push: boolean; sms: boolean; whatsapp: boolean };
   setAlertChannels: React.Dispatch<React.SetStateAction<{ push: boolean; sms: boolean; whatsapp: boolean }>>;
+
+  // B2G & B2B Extensions
+  district: typeof initialDistrict;
+  organizations: Organization[];
+  landObservations: LandUseObservation[];
+  governmentAlerts: GovernmentAlert[];
+  financialPassports: FinancialPassport[];
+  addFinancialPassport: (passport: FinancialPassport) => void;
+  auditLogs: AuditLogEntry[];
+  addAuditLog: (entry: Omit<AuditLogEntry, 'id' | 'timestamp'>) => void;
+  inspectionTasks: InspectionTask[];
+  addInspectionTask: (task: Omit<InspectionTask, 'id' | 'createdDate' | 'status'>) => void;
+  isDemoTourOpen: boolean;
+  setIsDemoTourOpen: (open: boolean) => void;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -72,6 +101,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     region: 'Алматинская область',
     district: 'Илийский район',
     isAuthenticated: true,
+    role: 'FARMER',
   });
 
   const [farm, setFarm] = useState<Farm>(initialFarm);
@@ -81,20 +111,45 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [workers] = useState<Worker[]>(initialWorkers);
   const [contracts, setContracts] = useState<Contract[]>(initialContracts);
   const [notifications, setNotifications] = useState<NotificationItem[]>(initialNotifications);
-  
+
   const [emergencyAlert, setEmergencyAlert] = useState<EmergencyAlert | null>(null);
   const [isAiAssistantOpen, setIsAiAssistantOpen] = useState<boolean>(false);
   const [isDemoMode, setIsDemoMode] = useState<boolean>(false);
-  
+
   const [selectedPasture, setSelectedPasture] = useState<Pasture | null>(null);
   const [selectedHerd, setSelectedHerd] = useState<Herd | null>(null);
 
-  const [safetyRadius, setSafetyRadius] = useState<number>(500); // meters
+  const [safetyRadius, setSafetyRadius] = useState<number>(500);
   const [alertChannels, setAlertChannels] = useState({
     push: true,
     sms: true,
     whatsapp: true,
   });
+
+  // B2G & B2B State
+  const [district] = useState(initialDistrict);
+  const [organizations] = useState<Organization[]>(initialOrganizations);
+  const [landObservations] = useState<LandUseObservation[]>(initialLandUseObservations);
+  const [governmentAlerts] = useState<GovernmentAlert[]>(initialGovernmentAlerts);
+  const [financialPassports, setFinancialPassports] = useState<FinancialPassport[]>(initialFinancialPassports);
+  const [auditLogs, setAuditLogs] = useState<AuditLogEntry[]>(initialAuditLogs);
+  const [inspectionTasks, setInspectionTasks] = useState<InspectionTask[]>([
+    {
+      id: 'task-481',
+      plotId: 'plot-481',
+      plotName: 'Участок №481',
+      ownerName: 'КХ «Береке»',
+      assignedTo: 'Инспектор Акимата (Касымов С.)',
+      createdDate: '08.08.2026',
+      status: 'pending',
+      reason: 'Низкая наблюдаемая активность за 24 месяца.',
+    },
+  ]);
+  const [isDemoTourOpen, setIsDemoTourOpen] = useState<boolean>(false);
+
+  const setUserRole = (role: UserRole) => {
+    setUser((prev) => ({ ...prev, role }));
+  };
 
   const t = (key: string): string => {
     return translations[language]?.[key] || translations['ru']?.[key] || key;
@@ -159,10 +214,32 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setEmergencyAlert(null);
   };
 
+  const addFinancialPassport = (passport: FinancialPassport) => {
+    setFinancialPassports((prev) => [passport, ...prev]);
+  };
+
+  const addAuditLog = (entry: Omit<AuditLogEntry, 'id' | 'timestamp'>) => {
+    const newLog: AuditLogEntry = {
+      ...entry,
+      id: `log-${Date.now()}`,
+      timestamp: new Date().toLocaleString('ru-RU'),
+    };
+    setAuditLogs((prev) => [newLog, ...prev]);
+  };
+
+  const addInspectionTask = (task: Omit<InspectionTask, 'id' | 'createdDate' | 'status'>) => {
+    const newTask: InspectionTask = {
+      ...task,
+      id: `task-${Date.now()}`,
+      createdDate: new Date().toLocaleDateString('ru-RU'),
+      status: 'pending',
+    };
+    setInspectionTasks((prev) => [newTask, ...prev]);
+  };
+
   // Demo mode script execution
   const startDemoMode = () => {
     setIsDemoMode(true);
-    // Automatically trigger alert after 1.5 seconds for visual impact
     setTimeout(() => {
       triggerEmergencyAlert();
     }, 1500);
@@ -181,6 +258,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         t,
         user,
         setUser,
+        userRole: user.role,
+        setUserRole,
         farm,
         setFarm,
         pastures,
@@ -210,6 +289,18 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         setSafetyRadius,
         alertChannels,
         setAlertChannels,
+        district,
+        organizations,
+        landObservations,
+        governmentAlerts,
+        financialPassports,
+        addFinancialPassport,
+        auditLogs,
+        addAuditLog,
+        inspectionTasks,
+        addInspectionTask,
+        isDemoTourOpen,
+        setIsDemoTourOpen,
       }}
     >
       {children}
@@ -224,3 +315,4 @@ export const useApp = () => {
   }
   return context;
 };
+

@@ -29,6 +29,7 @@ export const Sidebar: React.FC<{ isOpenMobile?: boolean; onCloseMobile?: () => v
     { path: '/app', label: t('navToday'), icon: Sun },
     { path: '/map', label: t('navMap'), icon: Map },
     { path: '/pastures', label: t('navPastures'), icon: Trees },
+    { path: '/financial-passport', label: 'Financial Passport', icon: FileText },
     { path: '/herd', label: t('navHerd'), icon: Footprints },
     { path: '/trackers', label: t('navTrackers'), icon: Radio },
     { path: '/safety', label: t('navSafety'), icon: ShieldAlert },
