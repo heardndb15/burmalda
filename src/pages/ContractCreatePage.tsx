@@ -14,27 +14,63 @@ export const ContractCreatePage: React.FC = () => {
   const [workerName, setWorkerName] = useState('Ерлан Смағұлов');
   const [salary, setSalary] = useState('250 000');
   const [duties, setDuties] = useState('Следить за 40 головами КРС, проверять водопой и ротацию пастбищ.');
+  const [isGenerating, setIsGenerating] = useState(false);
+  const [generationError, setGenerationError] = useState<string | null>(null);
+  const [contractText, setContractText] = useState('');
 
-  const handleNextStep = (e: React.FormEvent) => {
+  const handleNextStep = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (step === 1) setStep(2);
-    else if (step === 2) setStep(3);
-    else if (step === 3) {
-      setStep(4);
-      addContract({
-        workerId: 'worker-1',
-        workerName,
-        farmId: farm.id,
-        farmName: farm.name,
-        position: 'Старший пастух КРС',
-        monthlySalaryKzt: Number(salary.replace(/\D/g, '')) || 250000,
-        startDate: '2026-08-15',
-        endDate: '2026-11-15',
-        status: 'active',
-        duties,
-        aiGenerated: true,
-      });
-      confetti({ particleCount: 100, spread: 70 });
+    if (step === 1) {
+      setStep(2);
+      return;
+    }
+    if (step === 2) {
+      setStep(3);
+      return;
+    }
+    if (step === 3) {
+      setIsGenerating(true);
+      setGenerationError(null);
+      try {
+        const response = await fetch('/api/generate-contract', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            workerName,
+            position: 'Старший пастух КРС',
+            salary,
+            duties,
+            farmName: farm.name,
+            farmOwnerName: farm.ownerName,
+            startDate: '2026-08-15',
+            endDate: '2026-11-15',
+          }),
+        });
+        const data = await response.json();
+        if (!response.ok) {
+          throw new Error(data.error || 'Не удалось сформировать договор');
+        }
+        setContractText(data.contractText);
+        setStep(4);
+        addContract({
+          workerId: 'worker-1',
+          workerName,
+          farmId: farm.id,
+          farmName: farm.name,
+          position: 'Старший пастух КРС',
+          monthlySalaryKzt: Number(salary.replace(/\D/g, '')) || 250000,
+          startDate: '2026-08-15',
+          endDate: '2026-11-15',
+          status: 'active',
+          duties,
+          aiGenerated: true,
+        });
+        confetti({ particleCount: 100, spread: 70 });
+      } catch (err) {
+        setGenerationError(err instanceof Error ? err.message : 'Не удалось сформировать договор');
+      } finally {
+        setIsGenerating(false);
+      }
     }
   };
 
@@ -154,15 +190,33 @@ export const ContractCreatePage: React.FC = () => {
                   onChange={(e) => setDuties(e.target.value)}
                   rows={3}
                   required
+                  disabled={isGenerating}
                   className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white focus:border-emerald-500"
                 />
 
+                {generationError && (
+                  <div className="p-3 rounded-xl bg-red-950/30 border border-red-500/40 text-[11px] text-red-300 flex items-start space-x-2">
+                    <AlertTriangle className="w-4 h-4 shrink-0 mt-0.5" />
+                    <span>{generationError} Нажмите кнопку ещё раз, чтобы повторить попытку.</span>
+                  </div>
+                )}
+
                 <button
                   type="submit"
-                  className="w-full py-3.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-500 text-white font-bold text-xs shadow-xl transition flex items-center justify-center space-x-2"
+                  disabled={isGenerating}
+                  className="w-full py-3.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-500 text-white font-bold text-xs shadow-xl transition flex items-center justify-center space-x-2 disabled:opacity-60"
                 >
-                  <Sparkles className="w-4 h-4 text-amber-300" />
-                  <span>Сформировать юридический договор</span>
+                  {isGenerating ? (
+                    <>
+                      <RefreshCw className="w-4 h-4 animate-spin" />
+                      <span>AI составляет договор…</span>
+                    </>
+                  ) : (
+                    <>
+                      <Sparkles className="w-4 h-4 text-amber-300" />
+                      <span>Сформировать юридический договор</span>
+                    </>
+                  )}
                 </button>
               </form>
             )}
@@ -193,13 +247,7 @@ export const ContractCreatePage: React.FC = () => {
                 <strong>Работник:</strong> Гражданин(ка) {workerName}.
               </p>
 
-              <p>
-                <strong>1. ПРЕДМЕТ ДОГОВОРА:</strong> Работник обязуется выполнять обязанности пастуха КРС, а Работодатель обязуется выплачивать ежемесячную заработную плату в размере <strong>{salary} ₸</strong>.
-              </p>
-
-              <p>
-                <strong>2. ОБЯЗАННОСТИ РАБОТНИКА:</strong> {duties}
-              </p>
+              <div className="whitespace-pre-line leading-relaxed">{contractText}</div>
 
               <div className="border-t border-slate-800 pt-3 flex justify-between font-bold text-white">
                 <span>Подпись Работодателя: ____________</span>
