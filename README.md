@@ -30,3 +30,23 @@ If you are developing a production application, we recommend enabling type-aware
 ```
 
 See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+
+## AI-юрист: backend
+
+`/api/generate-contract` — Vercel Function, генерирующая содержательные пункты
+трудового договора через Gemini API. Ключ (`GEMINI_API_KEY`) задаётся в `.env`
+(локально) и в переменных окружения проекта на Vercel (для деплоя) — без
+`VITE_`-префикса, чтобы не попасть в клиентский бандл.
+
+Локальная разработка с API:
+
+```bash
+npm run dev:api
+```
+
+(обычный `npm run dev` поднимает только статику через Vite и не обслуживает
+`/api` — для этого нужен `vercel dev`, который запускает `dev:api`.)
+
+Переменные окружения (см. `.env.example`):
+- `GEMINI_API_KEY` — обязателен.
+- `GEMINI_MODEL` — опционален, по умолчанию `gemini-2.5-flash`.
