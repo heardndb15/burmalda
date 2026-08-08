@@ -1,0 +1,123 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --bg-main: #0c1a12;
+    --bg-card: #12281c;
+    --bg-card-hover: #183324;
+    --accent-emerald: #10b981;
+    --accent-amber: #f59e0b;
+    --accent-crimson: #ef4444;
+    --text-primary: #f8fafc;
+    --text-secondary: #94a3b8;
+    --border-glass: rgba(255, 255, 255, 0.08);
+  }
+
+  body {
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    background-color: #08140e;
+    color: var(--text-primary);
+    overflow-x: hidden;
+  }
+}
+
+/* Custom Glassmorphism Utility */
+.glass-panel {
+  background: rgba(18, 40, 28, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.glass-card {
+  background: rgba(20, 48, 33, 0.6);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  transition: all 0.2s ease-in-out;
+}
+
+.glass-card:hover {
+  background: rgba(26, 60, 42, 0.8);
+  border-color: rgba(16, 185, 129, 0.3);
+}
+
+.glass-header {
+  background: rgba(10, 24, 16, 0.9);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Leaflet map overrides */
+.leaflet-container {
+  width: 100%;
+  height: 100%;
+  background: #08140e !important;
+  font-family: inherit;
+}
+
+.leaflet-control-zoom {
+  border: none !important;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3) !important;
+}
+
+.leaflet-control-zoom a {
+  background-color: #12281c !important;
+  color: #f8fafc !important;
+  border-bottom: 1px solid rgba(255,255,255,0.1) !important;
+}
+
+.leaflet-control-zoom a:hover {
+  background-color: #1a3826 !important;
+}
+
+.leaflet-popup-content-wrapper {
+  background: #12281c !important;
+  color: #f8fafc !important;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 12px !important;
+  padding: 4px;
+}
+
+.leaflet-popup-tip {
+  background: #12281c !important;
+}
+
+/* Custom Marker Pulsing FX */
+@keyframes pulse-ring {
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
+  }
+  70% {
+    transform: scale(1.15);
+    box-shadow: 0 0 0 12px rgba(239, 68, 68, 0);
+  }
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);
+  }
+}
+
+.danger-pulse-marker {
+  animation: pulse-ring 2s infinite;
+  border-radius: 9999px;
+}
+
+/* Scrollbar customization */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #08140e;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #1a3826;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #10b981;
+}

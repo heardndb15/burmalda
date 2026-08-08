@@ -1,0 +1,326 @@
+import { Farm, Pasture, Herd, Tracker, Worker, Contract, NotificationItem, EmergencyAlert } from '../types';
+
+// Centered in Kazakhstan (Almaty region, Ili / Zhambyl district area)
+export const initialFarm: Farm = {
+  id: 'farm-001',
+  name: 'Агро-Шаруашылық "Өтеген батыр"',
+  region: 'Алматинская область',
+  district: 'Илийский район',
+  areaHectares: 3480,
+  ownerName: 'Ерлан Смағұлов',
+  phone: '+7 701 555 4321',
+  email: 'yerlan.farm@agroradar.kz',
+  cattleCount: 140,
+  horseCount: 45,
+  sheepCount: 320,
+  goatCount: 50,
+  camelCount: 0,
+  totalAnimals: 555,
+  createdAt: '2025-03-12',
+};
+
+// 3 Pastures around Ili region coordinates
+export const initialPastures: Pasture[] = [
+  {
+    id: 'pasture-1',
+    farmId: 'farm-001',
+    name: 'Пастбище №1 (Солтүстік)',
+    areaHectares: 1120,
+    health: 'depleted', // 🔴 Истощается
+    ndviScore: 0.28,
+    feedDaysRemaining: 3,
+    hasWater: true,
+    waterSources: ['Скважина №1', 'Ручей Аксу'],
+    coordinates: [
+      [43.670, 77.120],
+      [43.685, 77.135],
+      [43.678, 77.160],
+      [43.660, 77.145],
+    ],
+    center: [43.673, 77.140],
+    history: [
+      { month: 'Май', health: 'good', ndvi: 0.72, feedDays: 30 },
+      { month: 'Июнь', health: 'good', ndvi: 0.65, feedDays: 22 },
+      { month: 'Июль', health: 'medium', ndvi: 0.45, feedDays: 12 },
+      { month: 'Август', health: 'depleted', ndvi: 0.28, feedDays: 3 },
+    ],
+    notes: 'Активный выпас КРС в течение 45 дней. Требуется отдых почвы.',
+    currentHerdId: undefined,
+  },
+  {
+    id: 'pasture-2',
+    farmId: 'farm-001',
+    name: 'Пастбище №2 (Орталық)',
+    areaHectares: 1120,
+    health: 'medium', // 🟡 Среднее
+    ndviScore: 0.52,
+    feedDaysRemaining: 7,
+    hasWater: false,
+    waterSources: [],
+    coordinates: [
+      [43.650, 77.140],
+      [43.662, 77.165],
+      [43.648, 77.185],
+      [43.635, 77.160],
+    ],
+    center: [43.649, 77.162],
+    history: [
+      { month: 'Май', health: 'good', ndvi: 0.80, feedDays: 35 },
+      { month: 'Июнь', health: 'good', ndvi: 0.70, feedDays: 25 },
+      { month: 'Июль', health: 'medium', ndvi: 0.58, feedDays: 14 },
+      { month: 'Август', health: 'medium', ndvi: 0.52, feedDays: 7 },
+    ],
+    notes: 'Участок без постоянного водопоя. Требуется подвоз воды.',
+    currentHerdId: 'herd-2',
+  },
+  {
+    id: 'pasture-3',
+    farmId: 'farm-001',
+    name: 'Пастбище №3 (Шығыс)',
+    areaHectares: 1240,
+    health: 'good', // 🟢 Хорошее
+    ndviScore: 0.84,
+    feedDaysRemaining: 12,
+    hasWater: true,
+    waterSources: ['Озеро Жайлау', 'Скважина №2'],
+    coordinates: [
+      [43.630, 77.180],
+      [43.645, 77.210],
+      [43.625, 77.230],
+      [43.612, 77.200],
+    ],
+    center: [43.628, 77.205],
+    history: [
+      { month: 'Май', health: 'good', ndvi: 0.88, feedDays: 40 },
+      { month: 'Июнь', health: 'good', ndvi: 0.86, feedDays: 32 },
+      { month: 'Июль', health: 'good', ndvi: 0.85, feedDays: 20 },
+      { month: 'Август', health: 'good', ndvi: 0.84, feedDays: 12 },
+    ],
+    notes: 'Рекомендовано для ротации КРС и табуна лошадей.',
+    currentHerdId: 'herd-1',
+  },
+];
+
+// Herds
+export const initialHerds: Herd[] = [
+  {
+    id: 'herd-1',
+    farmId: 'farm-001',
+    name: 'Стадо №1 (КРС)',
+    animalType: 'cattle',
+    headCount: 42,
+    shepherdId: 'worker-1',
+    shepherdName: 'Ерлан Смағұлов',
+    currentPastureId: 'pasture-3',
+    currentPastureName: 'Пастбище №3 (Шығыс)',
+    trackerId: 'tr-001',
+    status: 'safe',
+    currentLocation: [43.629, 77.202],
+    routeHistory: [
+      [43.670, 77.130],
+      [43.655, 77.150],
+      [43.635, 77.180],
+      [43.629, 77.202],
+    ],
+    speedKmh: 0.4,
+    headingDirection: 'Юго-Восток',
+    distanceToRoadMeters: 1450,
+    nearestWaterName: 'Озеро Жайлау',
+    nearestWaterDistanceMeters: 280,
+    isLiveTracking: true,
+  },
+  {
+    id: 'herd-2',
+    farmId: 'farm-001',
+    name: 'Стадо №2 (Табун лошадей)',
+    animalType: 'horse',
+    headCount: 38,
+    shepherdId: 'worker-2',
+    shepherdName: 'Айбек Қасымов',
+    currentPastureId: 'pasture-2',
+    currentPastureName: 'Пастбище №2 (Орталық)',
+    trackerId: 'tr-002',
+    status: 'warning',
+    currentLocation: [43.642, 77.142], // Near highway A-3
+    routeHistory: [
+      [43.630, 77.130],
+      [43.636, 77.135],
+      [43.642, 77.142],
+    ],
+    speedKmh: 1.8,
+    headingDirection: 'Северо-Запад (трасса)',
+    distanceToRoadMeters: 430,
+    nearestWaterName: 'Подвозная цистерна',
+    nearestWaterDistanceMeters: 890,
+    isLiveTracking: true,
+  },
+];
+
+// Trackers
+export const initialTrackers: Tracker[] = [
+  {
+    id: 'tr-001',
+    code: 'TR-001-KZ',
+    herdId: 'herd-1',
+    herdName: 'Стадо №1 (КРС)',
+    batteryLevel: 82,
+    lastPing: '2 мин назад',
+    status: 'online',
+    signalStrength: 'excellent',
+  },
+  {
+    id: 'tr-002',
+    code: 'TR-002-KZ',
+    herdId: 'herd-2',
+    herdName: 'Стадо №2 (Табун лошадей)',
+    batteryLevel: 47,
+    lastPing: '1 мин назад',
+    status: 'online',
+    signalStrength: 'good',
+  },
+  {
+    id: 'tr-003',
+    code: 'TR-003-KZ',
+    herdId: undefined,
+    herdName: undefined,
+    batteryLevel: 98,
+    lastPing: 'Резерв',
+    status: 'offline',
+    signalStrength: 'excellent',
+  },
+];
+
+// Shepherds / Workers (Agro-HR)
+export const initialWorkers: Worker[] = [
+  {
+    id: 'worker-1',
+    fullName: 'Ерлан Смағұлов',
+    rating: 4.9,
+    experienceYears: 12,
+    region: 'Алматинская область',
+    district: 'Илийский район',
+    animalTypes: ['cattle', 'horse'],
+    completionRate: 98,
+    phone: '+7 701 555 4321',
+    avatarUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80',
+    isAvailable: false,
+    bio: 'Опытный пастух КРС и табунщик. Отлично знаю пастбища Илийского и Жамбылского районов. Опыт ночного выпаса.',
+    completedContractsCount: 18,
+    reviews: [
+      { author: 'Асқар К.', rating: 5.0, date: '2025-11-10', comment: 'Отличный специалист, порядок в стаде гарантирован.' },
+      { author: 'Нұрлан М.', rating: 4.8, date: '2025-08-22', comment: 'Отвественен, хорошо следит за водопоем.' },
+    ],
+  },
+  {
+    id: 'worker-2',
+    fullName: 'Айбек Қасымов',
+    rating: 4.8,
+    experienceYears: 8,
+    region: 'Алматинская область',
+    district: 'Талгарский район',
+    animalTypes: ['horse', 'sheep'],
+    completionRate: 95,
+    phone: '+7 707 333 8899',
+    avatarUrl: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&q=80',
+    isAvailable: true,
+    bio: 'Специализируюсь на верховом выпасе лошадей и мелкого рогатого скота. Имею собственный транспорт.',
+    completedContractsCount: 12,
+    reviews: [
+      { author: 'Данияр С.', rating: 5.0, date: '2025-10-04', comment: 'Пунктуален, умеет работать с GPS-трекерами.' },
+    ],
+  },
+  {
+    id: 'worker-3',
+    fullName: 'Бауыржан Серікұлы',
+    rating: 4.7,
+    experienceYears: 15,
+    region: 'Жамбылская область',
+    district: 'Кордайский район',
+    animalTypes: ['cattle', 'sheep', 'camel'],
+    completionRate: 92,
+    phone: '+7 775 444 1122',
+    avatarUrl: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=200&q=80',
+    isAvailable: true,
+    bio: 'Мастер отгона скота на дальние жайлау. Знаю предгорные и степные маршруты.',
+    completedContractsCount: 24,
+    reviews: [
+      { author: 'Қайрат Т.', rating: 4.7, date: '2025-09-15', comment: 'Надёжный человек для сезонов жайлау.' },
+    ],
+  },
+];
+
+// Contracts
+export const initialContracts: Contract[] = [
+  {
+    id: 'contract-1',
+    workerId: 'worker-1',
+    workerName: 'Ерлан Смағұлов',
+    farmId: 'farm-001',
+    farmName: 'Агро-Шаруашылық "Өтеген батыр"',
+    position: 'Старший пастух КРС',
+    monthlySalaryKzt: 250000,
+    startDate: '2026-05-01',
+    endDate: '2026-08-15', // Expiring in 7 days!
+    status: 'active',
+    duties: 'Следить за 40 головами КРС, контролировать ротацию пастбищ и ежедневный водопой.',
+    aiGenerated: true,
+    createdAt: '2026-04-28',
+  },
+  {
+    id: 'contract-2',
+    workerId: 'worker-2',
+    workerName: 'Айбек Қасымов',
+    farmId: 'farm-001',
+    farmName: 'Агро-Шаруашылық "Өтеген батыр"',
+    position: 'Табунщик',
+    monthlySalaryKzt: 280000,
+    startDate: '2026-06-01',
+    endDate: '2026-11-01',
+    status: 'active',
+    duties: 'Выпас табуна лошадей (38 голов), GPS-мониторинг, предотвращение выхода на трассу А-3.',
+    aiGenerated: true,
+    createdAt: '2026-05-25',
+  },
+];
+
+// Notifications
+export const initialNotifications: NotificationItem[] = [
+  {
+    id: 'notif-1',
+    title: '🚨 Опасное приближение к трассе',
+    message: 'Стадо №2 находится в 430 м от проезжей части автодороги A-3.',
+    type: 'danger',
+    timestamp: '10 мин назад',
+    isRead: false,
+    link: '/map',
+  },
+  {
+    id: 'notif-2',
+    title: '🌱 Рекомендация по смене пастбища',
+    message: 'Пастбище №1 истощается (запас 3 дня). Переведите стадо на Пастбище №3.',
+    type: 'warning',
+    timestamp: '1 час назад',
+    isRead: false,
+    link: '/today',
+  },
+  {
+    id: 'notif-3',
+    title: '👨‍🌾 Срок контракта истекает',
+    message: 'Договор с Ерланом С. заканчивается через 7 дней.',
+    type: 'info',
+    timestamp: '3 часа назад',
+    isRead: true,
+    link: '/contracts',
+  },
+];
+
+export const initialEmergencyAlert: EmergencyAlert = {
+  id: 'alert-sim-1',
+  herdId: 'herd-2',
+  herdName: 'Стадо №2 (Табун лошадей)',
+  distanceMeters: 300,
+  speedKmh: 1.8,
+  direction: '→ трасса A-3',
+  timestamp: 'Только что',
+  isResolved: false,
+};
