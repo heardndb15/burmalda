@@ -365,7 +365,7 @@ export const AgroMap: React.FC<AgroMapProps> = ({
     // Step 8: Recommendation suggestion
     await new Promise((resolve) => setTimeout(resolve, 4000));
     setDemoStep(8);
-    setDemoText('💡 Рекомендация AgroRadar: переведите стадо №2 на участок №3 (Восточное) с хорошим запасом NDVI (0.84).');
+    setDemoText('💡 Рекомендация Burmalda: переведите стадо №2 на участок №3 (Восточное) с хорошим запасом NDVI (0.84).');
 
     // End / reset scenario after 5 seconds
     await new Promise((resolve) => setTimeout(resolve, 6000));

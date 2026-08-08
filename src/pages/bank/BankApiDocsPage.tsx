@@ -20,7 +20,7 @@ export const BankApiDocsPage: React.FC = () => {
         <span className="px-2.5 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 text-[10px] font-extrabold uppercase border border-cyan-500/40">
           Official API Reference
         </span>
-        <h1 className="text-2xl font-black text-white mt-1">Документация AgroRadar B2B API</h1>
+        <h1 className="text-2xl font-black text-white mt-1">Документация Burmalda B2B API</h1>
         <p className="text-xs text-slate-300 mt-1">
           Техническое руководство по интегрированию геопространственных показателей в банковские скоринговые системы.
         </p>
@@ -33,7 +33,7 @@ export const BankApiDocsPage: React.FC = () => {
           <span>1. Authentication (Аутентификация)</span>
         </h3>
         <p className="text-xs text-slate-300 leading-relaxed">
-          Все запросы к API AgroRadar требуют передачи ключа авторизации в заголовке `Authorization` с префиксом `Bearer`:
+          Все запросы к API Burmalda требуют передачи ключа авторизации в заголовке `Authorization` с префиксом `Bearer`:
         </p>
         <pre className="p-3 rounded-xl bg-slate-950 border border-slate-800 text-cyan-300 font-mono text-xs">
           Authorization: Bearer ar_demo_98f4a1b87c2049e29a83

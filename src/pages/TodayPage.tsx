@@ -160,7 +160,7 @@ export const TodayPage: React.FC = () => {
           <div>
             <h4 className="text-sm font-bold text-white">{t('farmStatusTitle')}</h4>
             <p className="text-xs text-slate-400">
-              Все 3 пастбища и 2 стада под непрерывным контролем AgroRadar.
+              Все 3 пастбища и 2 стада под непрерывным контролем Burmalda.
             </p>
           </div>
         </div>

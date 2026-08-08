@@ -69,7 +69,7 @@ export const BankSearchPage: React.FC = () => {
 
           <div className="p-4 rounded-2xl bg-cyan-950/60 border border-cyan-500/40 text-center shrink-0">
             <span className="text-[10px] font-extrabold uppercase text-cyan-400 tracking-wider">
-              Overall AgroRadar Score
+              Overall Burmalda Score
             </span>
             <div className="text-4xl font-black text-white">{passport.overallScore} <span className="text-xl text-slate-400">/ 100</span></div>
             <span className="text-xs font-bold text-emerald-400">{passport.category}</span>
@@ -140,10 +140,10 @@ export const BankSearchPage: React.FC = () => {
         <div className="p-4 rounded-2xl bg-cyan-950/40 border border-cyan-500/30 text-xs text-slate-300 space-y-1">
           <div className="flex items-center space-x-2 text-cyan-400 font-bold">
             <ShieldAlert className="w-4 h-4" />
-            <span>AgroRadar Risk Indicators Disclaimer</span>
+            <span>Burmalda Risk Indicators Disclaimer</span>
           </div>
           <p className="leading-relaxed">
-            «AgroRadar предоставляет аналитические и геопространственные показатели. Они не являются кредитным решением и не заменяют внутреннюю оценку рисков финансовой организации.»
+            «Burmalda предоставляет аналитические и геопространственные показатели. Они не являются кредитным решением и не заменяют внутреннюю оценку рисков финансовой организации.»
           </p>
         </div>
       </div>

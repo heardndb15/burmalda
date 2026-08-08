@@ -3,10 +3,10 @@ import { Language } from '../types';
 export const translations: Record<Language, Record<string, string>> = {
   ru: {
     // Brand
-    brandName: 'AgroRadar',
+    brandName: 'Burmalda',
     slogan: 'Цифровой автопилот для животновода Казахстана.',
     heroTitle: 'Ваше стадо. Ваша земля. Под контролем.',
-    heroSubtitle: 'AgroRadar помогает животноводам управлять пастбищами, отслеживать стадо и предотвращать опасные ситуации — в одном месте.',
+    heroSubtitle: 'Burmalda помогает животноводам управлять пастбищами, отслеживать стадо и предотвращать опасные ситуации — в одном месте.',
     startFree: 'Начать бесплатно',
     seeHowItWorks: 'Посмотреть, как работает',
     demoMode: 'Запустить демо',
@@ -30,7 +30,7 @@ export const translations: Record<Language, Record<string, string>> = {
 
     // Today / Farmer's Home
     todayGreeting: 'Добрый день, Ерлан.',
-    todayRecommends: 'Сегодня AgroRadar рекомендует:',
+    todayRecommends: 'Сегодня Burmalda рекомендует:',
     recMoveHerdTitle: '🌱 Перегнать стадо',
     recMoveHerdDesc: 'Пастбище №1 истощается. Рекомендуемый участок:',
     recMoveHerdTarget: 'Пастбище №3',
@@ -130,7 +130,7 @@ export const translations: Record<Language, Record<string, string>> = {
     pendingContracts: 'Ожидают подписи',
     completedContractsTab: 'Завершённые',
     monthlySalary: '₸ / месяц',
-    aiLawyerTitle: 'AI-Юрист AgroRadar',
+    aiLawyerTitle: 'AI-Юрист Burmalda',
     aiLawyerSubtitle: 'Создание юридически корректного трудового договора за 1 минуту',
     aiQuestion1: 'Кто будет выполнять работу?',
     aiQuestion2: 'Какая ежемесячная заработная плата?',
@@ -168,17 +168,17 @@ export const translations: Record<Language, Record<string, string>> = {
     b2gIntegration: 'B2G субсидии акимата',
 
     // AI Assistant
-    askAgroRadar: 'Ask AgroRadar',
-    aiAssistantTitle: 'AgroRadar AI Помощник',
-    aiPromptPlaceholder: 'Спросите AgroRadar (напр. Куда перегнать стадо?)...',
+    askBurmalda: 'Ask Burmalda',
+    aiAssistantTitle: 'Burmalda AI Помощник',
+    aiPromptPlaceholder: 'Спросите Burmalda (напр. Куда перегнать стадо?)...',
   },
 
   kk: {
     // Brand
-    brandName: 'AgroRadar',
+    brandName: 'Burmalda',
     slogan: 'Қазақстан малшысының сандық автопилоты.',
     heroTitle: 'Сіздің табыныңыз. Сіздің жеріңіз. Бақылауда.',
-    heroSubtitle: 'AgroRadar мал өсірушілерге жайылымдарды басқаруға, табынды бақылауға және қауіпті жағдайлардың алдын алуға көмектеседі.',
+    heroSubtitle: 'Burmalda мал өсірушілерге жайылымдарды басқаруға, табынды бақылауға және қауіпті жағдайлардың алдын алуға көмектеседі.',
     startFree: 'Тегін бастау',
     seeHowItWorks: 'Қалай жұмыс істейтінін көру',
     demoMode: 'Демо режимін қосу',
@@ -202,7 +202,7 @@ export const translations: Record<Language, Record<string, string>> = {
 
     // Today / Farmer's Home
     todayGreeting: 'Қайырлы күн, Ерлан.',
-    todayRecommends: 'Бүгін AgroRadar ұсынады:',
+    todayRecommends: 'Бүгін Burmalda ұсынады:',
     recMoveHerdTitle: '🌱 Табынды ауыстыру',
     recMoveHerdDesc: '№1 жайылым таусылуда. Ұсынылатын учаске:',
     recMoveHerdTarget: '№3 Жайылым',
@@ -302,7 +302,7 @@ export const translations: Record<Language, Record<string, string>> = {
     pendingContracts: 'Қол қою күтілуде',
     completedContractsTab: 'Аяқталған',
     monthlySalary: '₸ / ай',
-    aiLawyerTitle: 'AgroRadar AI-Заңгері',
+    aiLawyerTitle: 'Burmalda AI-Заңгері',
     aiLawyerSubtitle: '1 минутта заңды түрде дұрыс еңбек шартын құру',
     aiQuestion1: 'Жұмысты кім орындайды?',
     aiQuestion2: 'Айлық жалақы қанша?',
@@ -340,17 +340,17 @@ export const translations: Record<Language, Record<string, string>> = {
     b2gIntegration: 'Әкімдік B2G субсидиялары',
 
     // AI Assistant
-    askAgroRadar: 'Ask AgroRadar',
-    aiAssistantTitle: 'AgroRadar AI Көмекшісі',
-    aiPromptPlaceholder: 'AgroRadar-дан сұраңыз (мысалы: Табынды қайда көшірген дұрыс?)...',
+    askBurmalda: 'Ask Burmalda',
+    aiAssistantTitle: 'Burmalda AI Көмекшісі',
+    aiPromptPlaceholder: 'Burmalda-дан сұраңыз (мысалы: Табынды қайда көшірген дұрыс?)...',
   },
 
   en: {
     // Brand
-    brandName: 'AgroRadar',
+    brandName: 'Burmalda',
     slogan: 'Digital autopilot for Kazakhstan livestock farmers.',
     heroTitle: 'Your herd. Your land. Under control.',
-    heroSubtitle: 'AgroRadar helps livestock farmers manage pastures, track herds, and prevent dangerous road incidents in one place.',
+    heroSubtitle: 'Burmalda helps livestock farmers manage pastures, track herds, and prevent dangerous road incidents in one place.',
     startFree: 'Start Free',
     seeHowItWorks: 'See how it works',
     demoMode: 'Launch Demo',
@@ -374,7 +374,7 @@ export const translations: Record<Language, Record<string, string>> = {
 
     // Today / Farmer's Home
     todayGreeting: 'Good day, Yerlan.',
-    todayRecommends: 'Today AgroRadar recommends:',
+    todayRecommends: 'Today Burmalda recommends:',
     recMoveHerdTitle: '🌱 Relocate Herd',
     recMoveHerdDesc: 'Pasture #1 is depleting. Recommended target area:',
     recMoveHerdTarget: 'Pasture #3',
@@ -474,7 +474,7 @@ export const translations: Record<Language, Record<string, string>> = {
     pendingContracts: 'Pending Signature',
     completedContractsTab: 'Completed',
     monthlySalary: '₸ / month',
-    aiLawyerTitle: 'AgroRadar AI Lawyer',
+    aiLawyerTitle: 'Burmalda AI Lawyer',
     aiLawyerSubtitle: 'Generate legally compliant employment contracts in 1 minute',
     aiQuestion1: 'Who will perform the work?',
     aiQuestion2: 'What is the monthly salary?',
@@ -512,8 +512,8 @@ export const translations: Record<Language, Record<string, string>> = {
     b2gIntegration: 'B2G Government Subsidies',
 
     // AI Assistant
-    askAgroRadar: 'Ask AgroRadar',
-    aiAssistantTitle: 'AgroRadar AI Assistant',
-    aiPromptPlaceholder: 'Ask AgroRadar (e.g. Where should I move the herd?)...',
+    askBurmalda: 'Ask Burmalda',
+    aiAssistantTitle: 'Burmalda AI Assistant',
+    aiPromptPlaceholder: 'Ask Burmalda (e.g. Where should I move the herd?)...',
   }
 };

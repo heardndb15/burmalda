@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Radar, ArrowLeft, Phone, CheckCircle2 } from 'lucide-react';
+import { ArrowLeft, Phone, CheckCircle2 } from 'lucide-react';
 
 export const ForgotPasswordPage: React.FC = () => {
   const [phone, setPhone] = useState('');
@@ -16,12 +16,10 @@ export const ForgotPasswordPage: React.FC = () => {
       <div className="w-full max-w-md glass-panel p-8 rounded-3xl border border-emerald-500/30 shadow-2xl">
         <div className="text-center mb-6">
           <Link to="/" className="inline-flex items-center space-x-2.5 mb-2">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-400 p-0.5">
-              <div className="w-full h-full bg-slate-950 rounded-[10px] flex items-center justify-center">
-                <Radar className="w-5 h-5 text-emerald-400" />
-              </div>
+            <div className="w-9 h-9 rounded-xl bg-slate-950 flex items-center justify-center overflow-hidden">
+              <img src="/favicon.svg" alt="Burmalda" className="w-7 h-7" />
             </div>
-            <span className="text-xl font-black text-white">AgroRadar</span>
+            <span className="text-xl font-black text-white">Burmalda</span>
           </Link>
           <h2 className="text-lg font-bold text-white">Восстановление доступа</h2>
         </div>

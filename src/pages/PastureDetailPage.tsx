@@ -197,7 +197,7 @@ export const PastureDetailPage: React.FC = () => {
           <div className="space-y-4">
             <h3 className="text-sm font-bold text-white flex items-center gap-2 border-b border-slate-800 pb-2">
               <Sparkles className="w-4 h-4 text-amber-400" />
-              <span>Рекомендация AgroRadar</span>
+              <span>Рекомендация Burmalda</span>
             </h3>
 
             <div className="p-3.5 rounded-xl bg-slate-900/80 border border-slate-800 text-xs leading-relaxed space-y-2">

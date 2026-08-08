@@ -263,7 +263,7 @@ export interface BankApplication {
   passportId: string;
   requestedAmountKzt: number;
   purpose: string;
-  agroRadarScore: number;
+  burmaldaScore: number;
   status: 'new' | 'reviewing' | 'approved' | 'rejected';
   submittedDate: string;
 }

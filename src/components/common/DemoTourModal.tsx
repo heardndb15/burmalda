@@ -75,7 +75,7 @@ export const DemoTourModal: React.FC = () => {
       badge: 'Bank Portal (B2B)',
     },
     {
-      title: 'Шаг 8: Единая платформа AgroRadar',
+      title: 'Шаг 8: Единая платформа Burmalda',
       subtitle: 'Один набор данных → 3 пользователя → 3 решения',
       role: 'AKIMAT_ADMIN' as const,
       route: '/ecosystem',

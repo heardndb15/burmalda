@@ -159,10 +159,10 @@ export const BankOverviewPage: React.FC = () => {
           <span>IMPORTANT BANK DISCLAIMER</span>
         </div>
         <p className="leading-relaxed">
-          «AgroRadar предоставляет аналитические и геопространственные показатели. Они не являются кредитным решением и не заменяют внутреннюю оценку рисков финансовой организации.»
+          «Burmalda предоставляет аналитические и геопространственные показатели. Они не являются кредитным решением и не заменяют внутреннюю оценку рисков финансовой организации.»
         </p>
         <p className="text-[11px] text-slate-400">
-          Показатели платформы приводятся исключительно под заголовком <strong>«AgroRadar Risk Indicators»</strong>.
+          Показатели платформы приводятся исключительно под заголовком <strong>«Burmalda Risk Indicators»</strong>.
         </p>
       </div>
     </div>

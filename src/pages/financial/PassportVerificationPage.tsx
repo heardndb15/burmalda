@@ -1,7 +1,7 @@
 import React from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useApp } from '../../context/AppContext';
-import { ShieldCheck, CheckCircle2, Radar, Calendar, Trees, Droplets } from 'lucide-react';
+import { ShieldCheck, CheckCircle2, Calendar, Trees, Droplets } from 'lucide-react';
 
 export const PassportVerificationPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -24,16 +24,16 @@ export const PassportVerificationPage: React.FC = () => {
         {/* Top Logo */}
         <div className="flex items-center justify-between border-b border-slate-800 pb-4">
           <Link to="/" className="flex items-center space-x-2">
-            <div className="w-8 h-8 rounded-lg bg-emerald-600 flex items-center justify-center text-white">
-              <Radar className="w-4 h-4" />
+            <div className="w-8 h-8 rounded-lg bg-slate-950 flex items-center justify-center overflow-hidden">
+              <img src="/favicon.svg" alt="Burmalda" className="w-6 h-6" />
             </div>
             <span className="text-lg font-black text-white">
-              Agro<span className="text-emerald-400">Radar</span>
+              Burmalda
             </span>
           </Link>
           <span className="px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 text-xs font-black border border-emerald-500/40 flex items-center gap-1">
             <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
-            <span>AgroRadar Verified</span>
+            <span>Burmalda Verified</span>
           </span>
         </div>
 

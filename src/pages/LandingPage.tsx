@@ -2,7 +2,6 @@ import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useApp } from '../context/AppContext';
 import {
-  Radar,
   ArrowRight,
   ShieldCheck,
   Map,
@@ -23,14 +22,12 @@ export const LandingPage: React.FC = () => {
       {/* Landing Navbar */}
       <header className="sticky top-0 z-50 glass-header px-6 py-4 flex items-center justify-between">
         <div className="flex items-center space-x-3">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-400 p-0.5 shadow-lg shadow-emerald-900/50">
-            <div className="w-full h-full bg-slate-950 rounded-[10px] flex items-center justify-center">
-              <Radar className="w-6 h-6 text-emerald-400 animate-pulse" />
-            </div>
+          <div className="w-10 h-10 rounded-xl bg-slate-950 shadow-lg shadow-emerald-900/50 flex items-center justify-center overflow-hidden">
+            <img src="/favicon.svg" alt="Burmalda" className="w-8 h-8" />
           </div>
           <div>
             <span className="text-2xl font-black tracking-tight text-white flex items-center gap-1">
-              Agro<span className="text-emerald-400">Radar</span>
+              Burmalda
             </span>
           </div>
         </div>
@@ -137,7 +134,7 @@ export const LandingPage: React.FC = () => {
       <section className="px-6 py-12 max-w-6xl mx-auto w-full border-t border-slate-800">
         <div className="text-center mb-12">
           <h2 className="text-3xl font-extrabold text-white">
-            Фермер не изучает данные — AgroRadar говорит, что делать
+            Фермер не изучает данные — Burmalda говорит, что делать
           </h2>
         </div>
 
@@ -148,7 +145,7 @@ export const LandingPage: React.FC = () => {
             </div>
             <h3 className="text-lg font-bold text-white mb-2">Smart Pastures</h3>
             <p className="text-sm text-slate-300 leading-relaxed">
-              Спутниковый анализ вегетации NDVI. AgroRadar отслеживает уровень истощения пастбищ и сам рассчитывает оптимальный день перегона скота.
+              Спутниковый анализ вегетации NDVI. Burmalda отслеживает уровень истощения пастбищ и сам рассчитывает оптимальный день перегона скота.
             </p>
           </div>
 
@@ -176,7 +173,7 @@ export const LandingPage: React.FC = () => {
 
       {/* Footer */}
       <footer className="mt-auto py-8 border-t border-slate-900 text-center text-xs text-slate-500">
-        <p>© 2026 AgroRadar Kazakhstan. Все права защищены. Цифровой автопилот животноводства.</p>
+        <p>© 2026 Burmalda Kazakhstan. Все права защищены. Цифровой автопилот животноводства.</p>
       </footer>
     </div>
   );

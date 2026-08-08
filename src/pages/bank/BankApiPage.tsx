@@ -11,7 +11,7 @@ export const BankApiPage: React.FC = () => {
     { method: 'GET', path: '/api/v1/farms/{id}', desc: 'Получение профиля хозяйства и поголовья' },
     { method: 'GET', path: '/api/v1/pastures/{id}', desc: 'Текущее состояние пастбища и NDVI-индекс' },
     { method: 'GET', path: '/api/v1/passports/{id}', desc: 'Данные верифицированного Financial Passport' },
-    { method: 'GET', path: '/api/v1/risk/{id}', desc: 'Геопространственные индикаторы рисков (AgroRadar Risk Indicators)' },
+    { method: 'GET', path: '/api/v1/risk/{id}', desc: 'Геопространственные индикаторы рисков (Burmalda Risk Indicators)' },
   ];
 
   const jsonSample = `{
@@ -47,7 +47,7 @@ export const BankApiPage: React.FC = () => {
           </span>
           <h1 className="text-2xl font-black text-white mt-1">API Portal для Банков и МФО</h1>
           <p className="text-xs text-slate-300 mt-1">
-            Интеграция геоданных AgroRadar в скоринговые системы финансовых организаций.
+            Интеграция геоданных Burmalda в скоринговые системы финансовых организаций.
           </p>
         </div>
 

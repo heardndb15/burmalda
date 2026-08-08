@@ -12,7 +12,7 @@ export const LegalMethodologyPage: React.FC = () => {
         </span>
         <h1 className="text-3xl font-black text-white">Методология данных и Юридические оговорки</h1>
         <p className="text-xs text-slate-300">
-          Официальные правила обработки геоданных, источники и правовые границы AgroRadar.
+          Официальные правила обработки геоданных, источники и правовые границы Burmalda.
         </p>
       </div>
 
@@ -24,10 +24,10 @@ export const LegalMethodologyPage: React.FC = () => {
             1. Источники данных и статус интеграций
           </h3>
           <p>
-            Платформа AgroRadar использует космическую телеметрию <strong>Sentinel-2 (ESA)</strong>, <strong>Landsat-9 (USGS)</strong>, векторы гидрографии и данные GPS-трекеров.
+            Платформа Burmalda использует космическую телеметрию <strong>Sentinel-2 (ESA)</strong>, <strong>Landsat-9 (USGS)</strong>, векторы гидрографии и данные GPS-трекеров.
           </p>
           <div className="p-3 rounded-2xl bg-slate-900 border border-slate-800 text-amber-300 font-bold">
-            ⚠️ Все государственные (ИСЖ, Кадастр) и банковские API обозначены в текущей версии платформы как <strong>«Demo integration»</strong> или <strong>«Integration-ready»</strong>. AgroRadar не заявляет о наличии действующих закрытых гос-подключений без заключённых договоров.
+            ⚠️ Все государственные (ИСЖ, Кадастр) и банковские API обозначены в текущей версии платформы как <strong>«Demo integration»</strong> или <strong>«Integration-ready»</strong>. Burmalda не заявляет о наличии действующих закрытых гос-подключений без заключённых договоров.
           </div>
         </div>
 
@@ -56,10 +56,10 @@ export const LegalMethodologyPage: React.FC = () => {
         <div className="p-5 rounded-3xl bg-amber-950/20 border border-amber-500/40 space-y-3">
           <h3 className="text-sm font-black text-amber-300 flex items-center gap-2">
             <ShieldAlert className="w-4 h-4" />
-            <span>Юридические дисклеймеры AgroRadar</span>
+            <span>Юридические дисклеймеры Burmalda</span>
           </h3>
           <ul className="space-y-2 text-slate-200">
-            <li>• <strong>Не является государственным решением:</strong> AgroRadar не выносит административных постановлений и решений об изъятии земель. Статус «Требует проверки» является основанием для выезда инспектора акимата.</li>
+            <li>• <strong>Не является государственным решением:</strong> Burmalda не выносит административных постановлений и решений об изъятии земель. Статус «Требует проверки» является основанием для выезда инспектора акимата.</li>
             <li>• <strong>Не является кредитным решением:</strong> Показатели Financial Passport не представляют собой банковское кредитное одобрение и не заменяют скоринг риск-менеджмента банка.</li>
             <li>• <strong>Отсутствие финансовых гарантий:</strong> Сформированный отчёт не гарантирует выдачу субсидий или одобрение кредита.</li>
           </ul>

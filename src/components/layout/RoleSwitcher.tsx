@@ -123,7 +123,7 @@ export const RoleSwitcher: React.FC = () => {
         title="Запустить пошаговый тур (1 набор данных -> 3 решения)"
       >
         <Sparkles className="w-3.5 h-3.5 text-amber-400 animate-pulse" />
-        <span className="hidden md:inline">AgroRadar Demo Tour</span>
+        <span className="hidden md:inline">Burmalda Demo Tour</span>
       </button>
     </div>
   );

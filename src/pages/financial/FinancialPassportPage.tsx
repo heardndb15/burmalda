@@ -41,7 +41,7 @@ export const FinancialPassportPage: React.FC = () => {
     'Анализ пастбищ и биомассы',
     'Анализ 3-летней динамики NDVI',
     'Анализ гидрографии и водопоя',
-    'Расчёт AgroRadar Risk Scores',
+    'Расчёт Burmalda Risk Scores',
     'Формирование отчёта завершено',
   ];
 
@@ -314,7 +314,7 @@ export const FinancialPassportPage: React.FC = () => {
           {/* Section 20 Requirement: Score Engine Breakdown */}
           <div className="glass-panel p-6 rounded-3xl border border-slate-800 space-y-4">
             <h3 className="text-sm font-extrabold text-white uppercase tracking-wider text-cyan-400">
-              AgroRadar Indicator Metrics Breakdown
+              Burmalda Indicator Metrics Breakdown
             </h3>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               <div className="p-4 rounded-2xl bg-slate-900 border border-slate-800 text-center">
@@ -335,7 +335,7 @@ export const FinancialPassportPage: React.FC = () => {
               </div>
             </div>
             <p className="text-[11px] text-slate-400 italic text-center">
-              * Это информационные показатели AgroRadar, а не официальный банковский кредитный скоринг.
+              * Это информационные показатели Burmalda, а не официальный банковский кредитный скоринг.
             </p>
           </div>
 

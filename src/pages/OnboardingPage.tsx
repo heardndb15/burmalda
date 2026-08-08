@@ -48,7 +48,7 @@ export const OnboardingPage: React.FC = () => {
       <div className="max-w-7xl mx-auto w-full mb-4 flex items-center justify-between glass-panel p-4 rounded-2xl">
         <div>
           <span className="text-xs font-bold text-emerald-400 uppercase tracking-widest">
-            Первоначальная настройка AgroRadar
+            Первоначальная настройка Burmalda
           </span>
           <h2 className="text-xl font-black text-white">Карта вашего хозяйства ({farm.name})</h2>
         </div>

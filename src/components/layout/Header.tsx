@@ -3,7 +3,6 @@ import { useApp } from '../../context/AppContext';
 import { Language } from '../../types';
 import { RoleSwitcher } from './RoleSwitcher';
 import {
-  Radar,
   Globe,
   Bell,
   Play,
@@ -43,14 +42,12 @@ export const Header: React.FC<{ onToggleMobileMenu?: () => void }> = ({ onToggle
         </button>
 
         <Link to="/app" className="flex items-center space-x-2.5 group">
-          <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-400 p-0.5 shadow-lg shadow-emerald-900/40 group-hover:scale-105 transition-transform">
-            <div className="w-full h-full bg-slate-950 rounded-[10px] flex items-center justify-center">
-              <Radar className="w-5 h-5 text-emerald-400 animate-pulse" />
-            </div>
+          <div className="w-9 h-9 rounded-xl bg-slate-950 shadow-lg shadow-emerald-900/40 group-hover:scale-105 transition-transform flex items-center justify-center overflow-hidden">
+            <img src="/favicon.svg" alt="Burmalda" className="w-7 h-7" />
           </div>
           <div>
             <span className="text-xl font-extrabold tracking-tight text-white flex items-center gap-1.5">
-              Agro<span className="text-emerald-400">Radar</span>
+              Burmalda
             </span>
             <span className="hidden sm:block text-[10px] text-emerald-400/80 font-medium tracking-wide uppercase">
               Kazakhstan AgTech OS
@@ -113,13 +110,13 @@ export const Header: React.FC<{ onToggleMobileMenu?: () => void }> = ({ onToggle
           <AlertTriangle className="w-4 h-4" />
         </button>
 
-        {/* Ask AgroRadar AI Assistant Launcher */}
+        {/* Ask Burmalda AI Assistant Launcher */}
         <button
           onClick={() => setIsAiAssistantOpen(true)}
           className="flex items-center space-x-1.5 px-2.5 py-1.5 rounded-lg bg-emerald-950/60 border border-emerald-500/30 text-emerald-300 hover:bg-emerald-900/60 transition text-xs font-medium"
         >
           <Bot className="w-4 h-4 text-emerald-400" />
-          <span className="hidden md:inline">{t('askAgroRadar')}</span>
+          <span className="hidden md:inline">{t('askBurmalda')}</span>
         </button>
 
         {/* Language Switcher */}

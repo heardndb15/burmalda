@@ -82,7 +82,7 @@ export const FarmPage: React.FC = () => {
 
         <div className="glass-panel p-5 rounded-2xl border border-slate-800 space-y-4">
           <h3 className="text-sm font-bold text-white border-b border-slate-800 pb-2">
-            Инфраструктура AgroRadar
+            Инфраструктура Burmalda
           </h3>
 
           <div className="space-y-2 text-xs text-slate-300">

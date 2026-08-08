@@ -268,7 +268,7 @@ export const GovernmentOverviewPage: React.FC = () => {
               <span>Юридическая оговорка B2G</span>
             </div>
             <p className="leading-relaxed">
-              Космические данные Sentinel-2 и алгоритмы AgroRadar используются исключительно для <strong>Risk / Anomaly Detection</strong> и присвоения статуса <strong>«Требует проверки»</strong>.
+              Космические данные Sentinel-2 и алгоритмы Burmalda используются исключительно для <strong>Risk / Anomaly Detection</strong> и присвоения статуса <strong>«Требует проверки»</strong>.
             </p>
             <p className="leading-relaxed text-slate-400">
               Система и AI <strong>не принимают правовых или административных решений</strong> об изъятии земель. Все решения принимаются уполномоченными сотрудниками акимата на основе официальной процедуры.
@@ -287,7 +287,7 @@ export const GovernmentOverviewPage: React.FC = () => {
               onClick={() => setIsDemoTourOpen(true)}
               className="w-full py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs transition"
             >
-              Запустить AgroRadar Demo
+              Запустить Burmalda Demo
             </button>
           </div>
         </div>

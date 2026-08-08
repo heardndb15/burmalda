@@ -31,7 +31,7 @@ export const WorkerDetailPage: React.FC = () => {
           <div>
             <div className="flex items-center space-x-2 mb-1">
               <h1 className="text-2xl font-black text-white">{worker.fullName}</h1>
-              <span title="Верифицирован AgroRadar">
+              <span title="Верифицирован Burmalda">
                 <ShieldCheck className="w-5 h-5 text-emerald-400" />
               </span>
             </div>

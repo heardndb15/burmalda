@@ -16,7 +16,7 @@ export const AIAssistant: React.FC = () => {
     {
       id: '1',
       sender: 'ai',
-      text: 'Сәлеметсіз бе! Я AI-ассистент AgroRadar. Чем могу помочь по вашему хозяйству сегодня?',
+      text: 'Сәлеметсіз бе! Я AI-ассистент Burmalda. Чем могу помочь по вашему хозяйству сегодня?',
       timestamp: 'Только что',
     },
   ]);
@@ -44,9 +44,9 @@ export const AIAssistant: React.FC = () => {
     setMessages((prev) => [...prev, userMsg]);
     if (!textToSend) setInput('');
 
-    // Generate intelligent AgroRadar response
+    // Generate intelligent Burmalda response
     setTimeout(() => {
-      let aiText = 'AgroRadar проанализировал данные хозяйства. ';
+      let aiText = 'Burmalda проанализировал данные хозяйства. ';
       const lower = query.toLowerCase();
 
       if (lower.includes('перегнать') || lower.includes('куда')) {
@@ -63,7 +63,7 @@ export const AIAssistant: React.FC = () => {
           '👨‍🌾 **Договор пастуха:** Контракт со старшим пастухом Ерланом Смағұловым истекает **15 августа 2026 г.** (через 7 дней). Сформируйте продление на странице "Договоры".';
       } else {
         aiText =
-          '🛰️ **AgroRadar Статус:** Все спутниковые показатели вегетации и GPS-трекеры функционируют штатно. Общее состояние хозяйства: 🟢 Хорошее (3 480 га).';
+          '🛰️ **Burmalda Статус:** Все спутниковые показатели вегетации и GPS-трекеры функционируют штатно. Общее состояние хозяйства: 🟢 Хорошее (3 480 га).';
       }
 
       const aiMsg: ChatMessage = {

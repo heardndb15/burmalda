@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useApp } from '../context/AppContext';
-import { Radar, ArrowRight, CheckCircle2, User, Phone, Mail, Lock, Building, MapPin } from 'lucide-react';
+import { ArrowRight, CheckCircle2, User, Phone, Mail, Lock, Building, MapPin } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
 export const RegisterPage: React.FC = () => {
@@ -67,12 +67,10 @@ export const RegisterPage: React.FC = () => {
         {/* Registration Header */}
         <div className="text-center mb-6">
           <Link to="/" className="inline-flex items-center space-x-2.5 mb-2">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-400 p-0.5">
-              <div className="w-full h-full bg-slate-950 rounded-[10px] flex items-center justify-center">
-                <Radar className="w-5 h-5 text-emerald-400" />
-              </div>
+            <div className="w-9 h-9 rounded-xl bg-slate-950 flex items-center justify-center overflow-hidden">
+              <img src="/favicon.svg" alt="Burmalda" className="w-7 h-7" />
             </div>
-            <span className="text-xl font-black text-white">AgroRadar</span>
+            <span className="text-xl font-black text-white">Burmalda</span>
           </Link>
           <h2 className="text-lg font-bold text-white">Регистрация хозяйства</h2>
         </div>

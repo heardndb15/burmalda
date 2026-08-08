@@ -48,7 +48,7 @@ export const MobileNav: React.FC = () => {
           <div className="bg-slate-900 border-t border-slate-800 rounded-t-2xl p-4 max-h-[80vh] overflow-y-auto">
             <div className="flex items-center justify-between pb-3 mb-3 border-b border-slate-800">
               <span className="text-sm font-bold text-emerald-400 uppercase tracking-wide">
-                Все разделы AgroRadar
+                Все разделы Burmalda
               </span>
               <button
                 onClick={() => setIsMoreOpen(false)}

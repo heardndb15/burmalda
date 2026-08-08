@@ -28,7 +28,7 @@ export const EcosystemPage: React.FC = () => {
           <Network className="w-3.5 h-3.5" />
           <span>Platform Ecosystem Architecture</span>
         </span>
-        <h1 className="text-3xl font-black text-white">Инфраструктурная платформа AgroRadar</h1>
+        <h1 className="text-3xl font-black text-white">Инфраструктурная платформа Burmalda</h1>
         <p className="text-xs text-slate-300 max-w-2xl mx-auto">
           Один набор геоданных → разные продукты для Фермера, Акимата и Банка.
         </p>
@@ -52,7 +52,7 @@ export const EcosystemPage: React.FC = () => {
           </button>
         </div>
 
-        {/* Middle Row: Satellites -> AgroRadar Core <- GPS */}
+        {/* Middle Row: Satellites -> Burmalda Core <- GPS */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-center max-w-4xl mx-auto">
           <div className="p-4 rounded-2xl bg-slate-900 border border-slate-800">
             <Satellite className="w-6 h-6 text-blue-400 mx-auto mb-2" />
@@ -64,7 +64,7 @@ export const EcosystemPage: React.FC = () => {
             <div className="w-10 h-10 rounded-xl bg-emerald-600 flex items-center justify-center text-white mx-auto mb-2">
               <Network className="w-5 h-5 animate-pulse" />
             </div>
-            <h4 className="text-lg font-black text-white">AgroRadar Core Data Layer</h4>
+            <h4 className="text-lg font-black text-white">Burmalda Core Data Layer</h4>
             <span className="text-[10px] text-emerald-300 block">AI & Analytics Engine</span>
           </div>
 

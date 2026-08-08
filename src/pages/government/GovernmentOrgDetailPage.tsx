@@ -71,7 +71,7 @@ export const GovernmentOrgDetailPage: React.FC = () => {
         </div>
 
         <div className="glass-panel p-5 rounded-3xl border border-slate-800 space-y-3">
-          <h3 className="text-xs font-extrabold uppercase text-amber-400 tracking-wider">AgroRadar Индикаторы</h3>
+          <h3 className="text-xs font-extrabold uppercase text-amber-400 tracking-wider">Burmalda Индикаторы</h3>
           <div className="space-y-2 text-xs text-slate-300">
             <div>Состояние пастбищ: <strong className="text-emerald-400 font-bold">🟢 Хорошее</strong></div>
             <div>Нагрузка скота: <strong className="text-amber-400 font-bold">0.08 УГС/га (Норма)</strong></div>

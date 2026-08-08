@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useApp } from '../context/AppContext';
-import { Radar, ArrowRight, Lock, Phone } from 'lucide-react';
+import { ArrowRight, Lock, Phone } from 'lucide-react';
 
 export const LoginPage: React.FC = () => {
   const { setUser } = useApp();
@@ -20,14 +20,12 @@ export const LoginPage: React.FC = () => {
       <div className="w-full max-w-md glass-panel p-8 rounded-3xl border border-emerald-500/30 shadow-2xl">
         <div className="text-center mb-8">
           <Link to="/" className="inline-flex items-center space-x-2.5 mb-3">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-400 p-0.5">
-              <div className="w-full h-full bg-slate-950 rounded-[10px] flex items-center justify-center">
-                <Radar className="w-6 h-6 text-emerald-400" />
-              </div>
+            <div className="w-10 h-10 rounded-xl bg-slate-950 flex items-center justify-center overflow-hidden">
+              <img src="/favicon.svg" alt="Burmalda" className="w-8 h-8" />
             </div>
-            <span className="text-2xl font-black text-white">AgroRadar</span>
+            <span className="text-2xl font-black text-white">Burmalda</span>
           </Link>
-          <h2 className="text-xl font-bold text-white">Вход в AgroRadar</h2>
+          <h2 className="text-xl font-bold text-white">Вход в Burmalda</h2>
           <p className="text-xs text-slate-400 mt-1">Цифровой автопилот вашего хозяйства</p>
         </div>
 
